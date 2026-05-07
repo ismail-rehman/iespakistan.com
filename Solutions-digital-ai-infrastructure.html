@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital & AI Infrastructure | IES Engineering (Pvt) Ltd.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy-950:#071327;
+      --navy-900:#0b1f3a;
+      --ink:#0a1220;
+      --orange-500:#f6a100;
+      --orange-600:#e28f00;
+      --radius-2xl:22px;
+      --radius-xl:18px;
+      --radius-lg:14px;
+      --shadow-lg:0 20px 55px rgba(0,0,0,.35);
+      --shadow-md:0 14px 35px rgba(0,0,0,.25);
+      --shadow-soft:0 16px 35px rgba(10,18,32,.10);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(1200px 600px at 15% 0%, rgba(246,161,0,.10), transparent 55%),
+        radial-gradient(1000px 700px at 85% 15%, rgba(56,189,248,.08), transparent 55%),
+        linear-gradient(180deg, var(--navy-950), var(--navy-900));
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:100%;padding:0 48px}
+    @media (max-width:900px){.container{padding:0 22px}}
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(180deg, rgba(7,19,39,.92), rgba(7,19,39,.62));
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:260px}
+    .logoMark{
+      width:46px;height:34px;border:3px solid var(--orange-500);
+      border-right-color:transparent;border-radius:8px;
+      box-shadow:0 10px 22px rgba(246,161,0,.10)
+    }
+    .brandTitle{display:flex;flex-direction:column;line-height:1.1}
+    .brandTitle .name{font-weight:800;text-transform:uppercase;letter-spacing:.6px;font-size:18px}
+    .brandTitle .sub{font-weight:700;font-size:12px;color:rgba(255,255,255,.70)}
+    .menu{display:flex;align-items:center;gap:22px;color:rgba(255,255,255,.82);font-weight:600;white-space:nowrap}
+    .menu a{padding:10px 10px;border-radius:10px}
+    .menu a:hover{background:rgba(255,255,255,.06);color:#fff}
+    .menu .menuTrigger.active,
+    .menu > a.active{background:rgba(255,255,255,.06);color:#fff}
+
+    /* SOLUTIONS DROPDOWN */
+    .menu .menuItem{
+      position:relative;
+      display:flex;
+      align-items:center;
+    }
+    .menu .menuTrigger{
+      position:relative;
+      z-index:82;
+      padding:10px 10px;
+      border-radius:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+    }
+    .menu .menuTrigger:hover{
+      background: rgba(255,255,255,.06);
+      color:#fff;
+    }
+    .menu .menuCaret{
+      font-size:10px;
+      opacity:.82;
+      transform: translateY(1px);
+    }
+    .megaMenu{
+      position:absolute;
+      top:calc(100% + 14px);
+      left:50%;
+      transform:translateX(-50%) translateY(8px);
+      width:760px;
+      max-width:calc(100vw - 120px);
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(700px 240px at 15% 0%, rgba(246,161,0,.08), transparent 55%),
+        linear-gradient(180deg, rgba(7,19,39,.98), rgba(11,31,58,.98));
+      box-shadow: 0 24px 60px rgba(0,0,0,.42);
+      backdrop-filter: blur(14px);
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+      z-index:80;
+    }
+    .megaMenu::before{
+      content:"";
+      position:absolute;
+      top:-18px;
+      left:0;
+      right:0;
+      height:18px;
+      background:transparent;
+    }
+    .megaMenu::after{
+      content:"";
+      position:absolute;
+      top:-8px;
+      left:50%;
+      width:14px;
+      height:14px;
+      transform:translateX(-50%) rotate(45deg);
+      background: rgba(7,19,39,.98);
+      border-left:1px solid rgba(255,255,255,.10);
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .menu .menuItem:hover .megaMenu,
+    .menu .menuItem:focus-within .megaMenu,
+    .megaMenu:hover{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+    .megaHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+      padding:2px 4px 10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .megaTitle{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.86);
+    }
+    .megaHint{
+      font-size:11px;
+      font-weight:800;
+      color:rgba(255,255,255,.52);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .megaGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    .megaCard{
+      display:block;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      padding:14px;
+      min-height:126px;
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .megaCard::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(240px 90px at 10% 0%, rgba(246,161,0,.08), transparent 55%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .megaCard > *{ position:relative; z-index:1; }
+    .megaCard:hover{
+      background: rgba(255,255,255,.07);
+      border-color: rgba(246,161,0,.34);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(0,0,0,.22);
+    }
+    .megaIcon{
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      background: rgba(246,161,0,.14);
+      border:1px solid rgba(246,161,0,.28);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color: var(--orange-500);
+      font-size:11px;
+      margin-bottom:8px;
+      letter-spacing:.03em;
+      box-shadow: 0 10px 22px rgba(246,161,0,.10);
+    }
+    .megaCard h4{
+      margin:0 0 6px;
+      font-size:13px;
+      line-height:1.32;
+      letter-spacing:-.01em;
+      color:#fff;
+    }
+    .megaCard p{
+      margin:0;
+      color:rgba(255,255,255,.70);
+      font-size:12px;
+      line-height:1.45;
+    }
+    .megaCard .miniLink{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:9px;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.03em;
+      color:rgba(246,161,0,.96);
+      text-transform:uppercase;
+    }
+    @media (max-width: 980px){
+      .menu .menuItem{display:none;}
+    }
+
+    .actions{display:flex;gap:10px;min-width:260px;justify-content:flex-end}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:12px 16px;border-radius:14px;font-weight:800;letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);
+      color:#fff;cursor:pointer;
+      transition:transform .18s ease,background .18s ease
+    }
+    .btn:hover{background:rgba(255,255,255,.10);transform:translateY(-1px)}
+    .btn.primary{
+      color:#081426;border-color:rgba(246,161,0,.60);
+      background:linear-gradient(180deg,var(--orange-500),var(--orange-600));
+      box-shadow:0 18px 40px rgba(246,161,0,.22),0 0 0 1px rgba(246,161,0,.22) inset;
+    }
+
+    .heroWrap{padding:18px 0 0}
+    .heroCard{
+      position:relative;overflow:hidden;border-radius:var(--radius-2xl);
+      border:1px solid rgba(255,255,255,.10);box-shadow:var(--shadow-lg);
+      background:
+        linear-gradient(90deg, rgba(7,19,39,.92) 0%, rgba(7,19,39,.64) 50%, rgba(7,19,39,.28) 100%),
+        radial-gradient(860px 520px at 82% 20%, rgba(246,161,0,.12), transparent 58%),
+        radial-gradient(1000px 620px at 15% 10%, rgba(56,189,248,.10), transparent 62%),
+        url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    }
+    .heroInner{
+      position:relative;z-index:2;min-height:570px;
+      display:grid;grid-template-columns:1.08fr .92fr;gap:18px;
+      padding:56px 50px 26px;align-items:end;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.88);font-weight:900;font-size:12px;letter-spacing:.08em;text-transform:uppercase
+    }
+    .eyebrow i{
+      width:8px;height:8px;border-radius:50%;background:var(--orange-500);
+      box-shadow:0 0 0 3px rgba(246,161,0,.18);display:inline-block
+    }
+    .heroText h1{margin:16px 0 14px;font-size:56px;line-height:1.02;letter-spacing:-1.2px;max-width:12ch}
+    .heroText p{margin:0 0 20px;color:rgba(255,255,255,.82);font-size:16px;line-height:1.72;max-width:68ch}
+    .heroBtns{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .heroHighlights{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px;max-width:700px}
+    .highlight{border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.05);padding:14px}
+    .highlight strong{display:block;font-size:15px}
+    .highlight span{display:block;font-size:12px;line-height:1.5;color:rgba(255,255,255,.72);margin-top:5px}
+
+    .heroPanel{
+      border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);
+      background:rgba(7,19,39,.58);backdrop-filter:blur(10px);
+      box-shadow:var(--shadow-md);padding:20px;max-width:450px;justify-self:end
+    }
+    .heroPanel h3{margin:0 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+    .heroPanel p{margin:0;font-size:13px;line-height:1.65;color:rgba(255,255,255,.78)}
+    .heroPanel .stack{margin-top:14px;display:grid;gap:10px}
+    .heroPanel .pill{
+      padding:10px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);font-size:12px;font-weight:800;color:rgba(255,255,255,.88);
+      display:inline-flex;align-items:center;gap:8px
+    }
+    .heroPanel .pill i{
+      width:8px;height:8px;border-radius:50%;background:var(--orange-500);
+      box-shadow:0 0 0 3px rgba(246,161,0,.18);display:inline-block
+    }
+
+    .section{padding:68px 0}
+    .sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}
+    .sectionHead .kicker{font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.78);font-size:12px}
+    .h2{margin:0 0 12px;font-size:32px;line-height:1.12;letter-spacing:-.04em}
+    .subtext{margin:0;color:rgba(255,255,255,.74);max-width:74ch;line-height:1.65;font-size:14px}
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+    .lightSection{
+      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.90));
+      color:var(--ink);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)
+    }
+    .lightSection .kicker{color:#0b1f3a}
+    .lightSection .h2{color:#0b1f3a}
+    .lightSection .subtext{color:#49617f}
+    .lightCard{
+      border-radius:var(--radius-lg);background:#fff;box-shadow:var(--shadow-soft);
+      border:1px solid rgba(10,18,32,.10);padding:18px;transition:transform .18s ease,border-color .18s ease
+    }
+    .lightCard:hover{transform:translateY(-2px);border-color:rgba(246,161,0,.35)}
+    .iconBadge{
+      width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+      font-weight:900;color:var(--orange-500);background:rgba(246,161,0,.12);
+      border:1px solid rgba(246,161,0,.28);box-shadow:0 10px 22px rgba(246,161,0,.10);
+      margin-bottom:12px;font-size:12px
+    }
+    .lightCard h3{margin:0 0 8px;font-size:16px;color:#0b1f3a}
+    .lightCard p{margin:0;color:#4a607d;font-size:13px;line-height:1.58}
+
+    .split{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:stretch}
+    .panel{
+      border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-md);padding:22px
+    }
+    .panel h3{margin:0 0 12px;font-size:18px}
+    .panel p{margin:0;color:rgba(255,255,255,.76);line-height:1.7;font-size:14px}
+
+    .tickList{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+    .tickList li{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start}
+    .tick{
+      width:28px;height:28px;border-radius:10px;display:grid;place-items:center;
+      background:rgba(246,161,0,.12);border:1px solid rgba(246,161,0,.30);
+      color:var(--orange-500);font-weight:900;box-shadow:0 10px 22px rgba(246,161,0,.10)
+    }
+    .tickList strong{display:block;font-size:14px}
+    .tickList span{display:block;margin-top:4px;color:rgba(255,255,255,.72);font-size:13px;line-height:1.55}
+
+    .architecture{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px}
+    .stage{
+      position:relative;border-radius:20px;border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-md);padding:18px;min-height:162px
+    }
+    .stage .num{
+      width:32px;height:32px;border-radius:11px;display:grid;place-items:center;
+      background:rgba(246,161,0,.12);border:1px solid rgba(246,161,0,.30);color:var(--orange-500);
+      font-weight:900;margin-bottom:12px
+    }
+    .stage strong{display:block;font-size:14px}
+    .stage span{display:block;margin-top:6px;color:rgba(255,255,255,.72);font-size:12px;line-height:1.55}
+
+    .caseStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+    .miniCase{
+      border-radius:18px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);
+      box-shadow:var(--shadow-md);padding:18px
+    }
+    .miniCase h4{margin:0 0 8px;font-size:15px}
+    .miniCase p{margin:0;color:rgba(255,255,255,.72);font-size:13px;line-height:1.6}
+
+    .ctaBox{
+      border-radius:26px;border:1px solid rgba(255,255,255,.10);
+      background:radial-gradient(850px 300px at 20% 0%, rgba(246,161,0,.10), transparent 58%), linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-lg);padding:28px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center
+    }
+    .ctaBox h3{margin:0 0 8px;font-size:28px;letter-spacing:-.03em}
+    .ctaBox p{margin:0;color:rgba(255,255,255,.76);line-height:1.65}
+
+    footer{
+      margin-top:30px;padding:30px 0 44px;border-top:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.70)
+    }
+    .footGrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px}
+    .footLinks a{display:block;padding:7px 0;color:rgba(255,255,255,.72)}
+    .small{font-size:12px;color:rgba(255,255,255,.62);margin-top:10px;line-height:1.6}
+
+    @media (max-width:1100px){
+      .actions{min-width:auto}
+      .heroInner{grid-template-columns:1fr;min-height:auto;padding:40px 22px 24px}
+      .heroPanel{justify-self:start;max-width:none}
+      .split{grid-template-columns:1fr}
+      .grid-4{grid-template-columns:repeat(2,1fr)}
+      .grid-3,.architecture,.caseStrip,.footGrid{grid-template-columns:1fr}
+      .ctaBox{grid-template-columns:1fr}
+    }
+    @media (max-width:680px){
+      .heroText h1{font-size:38px}
+      .heroHighlights{grid-template-columns:1fr}
+      .grid-4{grid-template-columns:1fr}
+    }
+  </style>
+<style>
+/* ===== FOOTER REFINEMENT (Synced with index) ===== */
+footer{
+  margin-top:30px;
+  padding:44px 0 54px;
+  border-top:1px solid rgba(255,255,255,.09);
+  color:rgba(255,255,255,.70);
+}
+.footGrid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr 1fr;
+  gap:26px;
+}
+.footLinks a{
+  display:block;
+  padding:7px 0;
+  color:rgba(255,255,255,.72);
+  opacity:.85;
+}
+.footLinks a:hover{color:#fff;opacity:1}
+.small{font-size:12px;color:rgba(255,255,255,.62);margin-top:10px}
+.brandFooter{
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:6px;
+}
+.brandFooter .brandTitle .name{
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.brandFooter .brandTitle .sub{
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  opacity:.85;
+}
+footer .small{line-height:1.6;max-width:520px}
+@media (max-width: 980px){
+  footer{padding:38px 0 44px;}
+  .footGrid{grid-template-columns:1fr 1fr;gap:18px;}
+}
+@media (max-width: 560px){
+  .footGrid{grid-template-columns:1fr;gap:16px;}
+}
+</style>
+</head>
+<body>
+<div style="width:100%;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.08);text-align:center;padding:8px 10px;font-size:13px;letter-spacing:.04em;">Digital & AI Infrastructure for Enterprise, Analytics, and Mission-Critical Growth</div>
+
+<div class="topbar">
+  <div class="container">
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <div class="logoMark" aria-hidden="true"></div>
+        <div class="brandTitle">
+          <div class="name">IES Engineering</div>
+          <div class="sub">Pvt. Ltd.</div>
+        </div>
+      </a>
+      <nav class="menu" aria-label="Primary Navigation">
+          <div class="menuItem">
+            <a class="menuTrigger active" href="index.html#solutions" aria-haspopup="true" aria-expanded="false">Solutions <span class="menuCaret">▾</span></a>
+            <div class="megaMenu" aria-label="Solutions">
+              <div class="megaHead">
+                <div class="megaTitle">Core Capabilities</div>
+                <div class="megaHint">Explore solutions</div>
+              </div>
+              <div class="megaGrid">
+                <a class="megaCard" href="Solutions-digital-ai-infrastructure.html" aria-current="page">
+                  <div class="megaIcon">INFRA</div>
+                  <h4>Digital &amp; AI Infrastructure</h4>
+                  <p>Enterprise networks, data centers, and AI-ready compute foundations for regulated and high-growth environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-data-platforms-global-namespace.html">
+                  <div class="megaIcon">DATA</div>
+                  <h4>Data Platforms &amp; Global Namespace Storage</h4>
+                  <p>High-performance data platforms and unified global namespace storage for AI workloads, analytics, and distributed enterprise environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-smart-buildings-critical-elv.html">
+                  <div class="megaIcon">ELV</div>
+                  <h4>Smart Buildings &amp; Critical ELV</h4>
+                  <p>Integrated ELV, surveillance, and automation infrastructure for secure, connected developments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-banking-national-infrastructure-systems.html">
+                  <div class="megaIcon">BANK</div>
+                  <h4>Banking &amp; National Infrastructure Systems</h4>
+                  <p>Security-led, high-availability systems for banks, government, and regulated sectors.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="menuItem">
+            <a class="menuTrigger" href="index.html#industries" aria-haspopup="true" aria-expanded="false">Industries <span class="menuCaret">▾</span></a>
+            <div class="megaMenu" aria-label="Industries">
+              <div class="megaHead">
+                <div class="megaTitle">Industries We Serve</div>
+                <div class="megaHint">Explore sectors</div>
+              </div>
+              <div class="megaGrid">
+                <a class="megaCard" href="Industries-banking-financial.html">
+                  <div class="megaIcon">BNK</div>
+                  <h4>Banking &amp; Financial Institutions</h4>
+                  <p>Secure, compliant, high-availability infrastructure and data platforms for HBL, UBL, Meezan and leading financial institutions.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-government-national.html">
+                  <div class="megaIcon">GOV</div>
+                  <h4>Government &amp; National Platforms</h4>
+                  <p>Scalable digital infrastructure for PSW, NADRA, and regulated public-sector environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-enterprise-corporate.html">
+                  <div class="megaIcon">ENT</div>
+                  <h4>Enterprise &amp; Corporate Organizations</h4>
+                  <p>AI-ready data, compute, and ICT backbone for CPG &amp; Retail, corporate groups, and multi-site operations.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-hospitality-mixed-use.html">
+                  <div class="megaIcon">HOT</div>
+                  <h4>Hospitality &amp; Mixed-Use Developments</h4>
+                  <p>Integrated ICT, ELV and smart infrastructure for Radisson Blu, Signature Rotana, PC Hotels, and premium properties.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <a href="index.html#leadership">Leadership</a>
+          <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+          <a href="partners.html">Partners</a>
+          <a href="hoteza-iptv-ies.html">Hoteza</a>
+          <span>Case Studies</span>
+          
+        </nav>
+      <div class="actions">
+        <a class="btn" href="contact.html">Contact</a>
+        <a class="btn primary" href="index.html#contact">Engage With Our Engineering Team</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="heroWrap">
+  <div class="container">
+    <div class="heroCard">
+      <div class="heroInner">
+        <div class="heroText">
+          <span class="eyebrow"><i></i> Digital & AI Infrastructure</span>
+          <h1>Build the Enterprise Foundation for AI, Performance, and Scale</h1>
+          <p>IES Engineering designs and delivers digital and AI infrastructure environments that support enterprise workloads, accelerated analytics, data-intensive operations, and future-ready compute foundations. Our approach aligns enterprise ICT, data center architecture, and AI-readiness into a scalable platform strategy for regulated and mission-critical organizations.</p>
+          <div class="heroBtns">
+            <a class="btn primary" href="index.html#contact">Discuss Your AI Infrastructure Strategy</a>
+            <a class="btn" href="#capabilities">Explore Capabilities</a>
+          </div>
+          <div class="heroHighlights">
+            <div class="highlight"><strong>AI-Ready Enterprise Foundations</strong><span>Prepare compute, networking, and data center environments for analytics growth and future AI workloads.</span></div>
+            <div class="highlight"><strong>Performance-Led Architecture</strong><span>Support demanding applications with scalable, resilient infrastructure aligned to enterprise operations.</span></div>
+            <div class="highlight"><strong>Mission-Critical Reliability</strong><span>Design for governance, uptime, and long-term operational continuity in regulated environments.</span></div>
+            <div class="highlight"><strong>Future Growth Alignment</strong><span>Build digital platforms that scale with new workloads, sites, and strategic transformation initiatives.</span></div>
+          </div>
+        </div>
+        <div class="heroPanel">
+          <h3>Where This Solution Fits</h3>
+          <p>This solution is positioned for banks, government entities, enterprise groups, data-intensive organizations, analytics programs, and customers preparing their environment for AI, HPC, or next-generation digital workloads.</p>
+          <div class="stack">
+            <span class="pill"><i></i> AI & HPC Readiness</span>
+            <span class="pill"><i></i> Enterprise Compute Foundations</span>
+            <span class="pill"><i></i> Data Center & ICT Integration</span>
+            <span class="pill"><i></i> Regulated Mission-Critical Environments</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="capabilities" class="section lightSection">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Core Capabilities</div>
+        <h2 class="h2">Digital infrastructure aligned with modern enterprise demand</h2>
+      </div>
+      <p class="subtext">We help organizations move from conventional infrastructure planning toward digital platforms engineered for performance, resilience, operational simplicity, and long-term AI readiness.</p>
+    </div>
+    <div class="grid-4">
+      <div class="lightCard"><div class="iconBadge">CMP</div><h3>Enterprise Compute Foundations</h3><p>Build scalable platforms for business applications, data-intensive processing, and future AI acceleration.</p></div>
+      <div class="lightCard"><div class="iconBadge">NET</div><h3>High-Performance Networking</h3><p>Align network architecture with throughput, resilience, segmentation, and enterprise workload demands.</p></div>
+      <div class="lightCard"><div class="iconBadge">DC</div><h3>Data Center Integration</h3><p>Bring compute, storage, connectivity, and environmental design into one coordinated delivery model.</p></div>
+      <div class="lightCard"><div class="iconBadge">AI</div><h3>AI Infrastructure Readiness</h3><p>Prepare enterprise environments for accelerated data access, GPU-scale growth, and analytics-led operations.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div class="panel">
+        <div class="kicker">Business Value</div>
+        <h2 class="h2">Why organizations are redesigning infrastructure for AI and data-led growth</h2>
+        <p>Traditional ICT environments are often built for static business systems, not for the growing performance, integration, and scalability requirements of modern analytics and AI programs. A digital and AI infrastructure strategy creates the foundation needed for stronger operational agility, better workload alignment, and future-ready growth.</p>
+        <ul class="tickList">
+          <li><div class="tick">✓</div><div><strong>Support modern analytics and AI initiatives</strong><span>Establish the enterprise infrastructure layer required for data-intensive processing and accelerated workloads.</span></div></li>
+          <li><div class="tick">✓</div><div><strong>Reduce performance bottlenecks across the stack</strong><span>Align compute, network, and platform design with actual operational and workload requirements.</span></div></li>
+          <li><div class="tick">✓</div><div><strong>Scale without repeatedly redesigning the environment</strong><span>Create an infrastructure model that can expand with new workloads, capacity, and digital initiatives.</span></div></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="kicker">IES Approach</div>
+        <h3>Architecture-led, enterprise-first execution</h3>
+        <p>IES Engineering approaches infrastructure engagements through business fit, workload analysis, governance, resilience, and future-readiness — not as isolated product deployments. Our role is to shape the right enterprise foundation for current digital operations and future AI ambitions.</p>
+        <ul class="tickList">
+          <li><div class="tick">1</div><div><strong>Assess application, data, and infrastructure requirements</strong><span>Understand how workloads behave today and what the organization needs for tomorrow’s scale and complexity.</span></div></li>
+          <li><div class="tick">2</div><div><strong>Design the target digital architecture</strong><span>Define the right compute, network, and platform structure for performance and operational fit.</span></div></li>
+          <li><div class="tick">3</div><div><strong>Deploy for long-term strategic value</strong><span>Deliver environments that support enterprise transformation rather than short-lived infrastructure refreshes.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Infrastructure Journey</div>
+        <h2 class="h2">How this solution supports digital and AI transformation</h2>
+      </div>
+      <p class="subtext">Digital and AI infrastructure is not only about equipment. It is the architectural base that determines how well an organization can support analytics, data platforms, automation, performance-sensitive applications, and future growth.</p>
+    </div>
+    <div class="architecture">
+      <div class="stage"><div class="num">1</div><strong>Assess</strong><span>Evaluate current infrastructure, workload constraints, performance needs, and future AI ambitions.</span></div>
+      <div class="stage"><div class="num">2</div><strong>Design</strong><span>Shape the right compute, network, and platform architecture for enterprise-grade execution and resilience.</span></div>
+      <div class="stage"><div class="num">3</div><strong>Integrate</strong><span>Bring digital infrastructure, data center components, and supporting systems into one coordinated environment.</span></div>
+      <div class="stage"><div class="num">4</div><strong>Accelerate</strong><span>Prepare the organization for analytics, AI pipelines, and growing data-intensive workload requirements.</span></div>
+      <div class="stage"><div class="num">5</div><strong>Scale</strong><span>Expand confidently across new capacity, new sites, and future transformation priorities.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section lightSection">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Representative Use Cases</div>
+        <h2 class="h2">Where this page aligns with your enterprise positioning</h2>
+      </div>
+      <p class="subtext">This page supports your business direction as an enterprise infrastructure and AI platform partner, not a conventional hardware reseller. The tone is built for serious customer conversations around scale, strategy, and long-term fit.</p>
+    </div>
+    <div class="grid-3">
+      <div class="lightCard"><div class="iconBadge">BNK</div><h3>Banking & Financial Institutions</h3><p>Build resilient enterprise foundations for high-availability operations, analytics growth, and strategic modernization.</p></div>
+      <div class="lightCard"><div class="iconBadge">GOV</div><h3>Government & National Platforms</h3><p>Support large-scale digital environments where uptime, governance, and infrastructure discipline are essential.</p></div>
+      <div class="lightCard"><div class="iconBadge">AI</div><h3>Enterprise AI & Analytics Programs</h3><p>Prepare infrastructure for data pipelines, AI operations, accelerated compute, and modern performance-led platforms.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Why IES Engineering</div>
+        <h2 class="h2">A strategic partner for enterprise digital infrastructure</h2>
+      </div>
+      <p class="subtext">Organizations need more than supply. They need a partner who can translate business growth, data ambitions, and operational realities into a mature infrastructure roadmap that remains relevant as workloads evolve.</p>
+    </div>
+    <div class="caseStrip">
+      <div class="miniCase"><h4>Enterprise-Led Positioning</h4><p>The page reflects serious enterprise messaging aligned to banks, government platforms, and AI-ready organizations.</p></div>
+      <div class="miniCase"><h4>VAST + AI Strategy Fit</h4><p>The narrative supports future data platform discussions and broader AI infrastructure positioning for IES.</p></div>
+      <div class="miniCase"><h4>Long-Term Architecture Thinking</h4><p>The content is structured around resilience, performance, growth, and strategic value — not short-term procurement only.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="ctaBox">
+      <div>
+        <h3>Let’s shape the right digital and AI infrastructure strategy for your environment</h3>
+        <p>Whether your organization is modernizing enterprise ICT, preparing for AI workloads, or redesigning infrastructure for future growth, IES Engineering can help define the right architecture and deployment direction.</p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a class="btn primary" href="index.html#contact">Engage With Our Engineering Team</a>
+        <a class="btn" href="index.html">Return to Homepage</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footGrid">
+      <div>
+        <div class="brand brandFooter">
+          <div class="logoMark" aria-hidden="true"></div>
+          <div class="brandTitle">
+            <div class="name">IES Engineering</div>
+            <div class="sub">Pvt. Ltd.</div>
+          </div>
+        </div>
+<div class="small">
+          © <span id="year"></span> IES Engineering (Private) Limited. All rights reserved.
+        </div>
+        <div class="small">
+          Enterprise ICT Infrastructure • Data Platforms • ELV & Smart Systems
+        </div>
+      </div>
+
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Company</div>
+        <a href="index.html#leadership">Leadership</a>
+        <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Solutions</div>
+        <a href="index.html#solutions">ICT Infrastructure</a>
+        <a href="index.html#solutions">Data Platforms & Analytics</a>
+        <a href="index.html#solutions">ELV & Smart Buildings</a>
+        <a href="partners.html">Partners</a>
+      </div>
+
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Contact</div>
+        <a href="#">hello@iespakistan.com</a>
+        <a href="#">+92 42 3 230 1563</a>
+        <a href="#">50-N Gurumangat Road, Gulberg II - Lahore, Pakistan</a>
+      </div>
+    </div>
+  </div>
+ 
+
+</footer>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

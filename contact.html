@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact | IES Engineering (Pvt) Ltd.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy-950:#071327; --navy-900:#0b1f3a; --navy-850:#102b52; --navy-800:#14335e;
+      --ink:#0a1220; --white:#ffffff;
+      --orange-500:#f6a100; --orange-600:#e28f00;
+      --slate-50:#f7f9fd; --slate-100:#eef3fb; --slate-200:#dfe8f6; --slate-300:#c9d6ee; --slate-500:#6e86a8;
+      --radius-2xl:22px; --radius-xl:18px; --radius-lg:14px; --radius-md:12px;
+      --shadow-lg:0 20px 55px rgba(0,0,0,.35);
+      --shadow-md:0 14px 35px rgba(0,0,0,.25);
+      --shadow-soft:0 16px 35px rgba(10,18,32,.10);
+    }
+    *{box-sizing:border-box} html,body{height:100%} html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#fff;
+      background:
+        radial-gradient(1200px 600px at 15% 0%, rgba(246,161,0,.10), transparent 55%),
+        radial-gradient(1000px 700px at 85% 15%, rgba(56,189,248,.08), transparent 55%),
+        linear-gradient(180deg, var(--navy-950), var(--navy-900));
+      overflow-x:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:100%;padding:0 48px}
+    @media (max-width:900px){.container{padding:0 22px}}
+
+    /* TOPBAR */
+    .topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(7,19,39,.92), rgba(7,19,39,.62));backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:260px}
+    .logoMark{width:46px;height:34px;border:3px solid var(--orange-500);border-right-color:transparent;border-radius:8px;box-shadow:0 10px 22px rgba(246,161,0,.10)}
+    .brandTitle{display:flex;flex-direction:column;line-height:1.1}
+    .brandTitle .name{font-weight:800;text-transform:uppercase;letter-spacing:.6px;font-size:18px}
+    .brandTitle .sub{font-weight:700;font-size:12px;color:rgba(255,255,255,.70)}
+    .menu{display:flex;align-items:center;gap:22px;color:rgba(255,255,255,.82);font-weight:600;white-space:nowrap}
+    .menu a{padding:10px 10px;border-radius:10px}
+    .menu a:hover{background:rgba(255,255,255,.06);color:#fff}
+    .menu .menuTrigger.active,
+    .menu > a.active{background:rgba(255,255,255,.06);color:#fff}
+
+    /* SOLUTIONS DROPDOWN */
+    .menu .menuItem{
+      position:relative;
+      display:flex;
+      align-items:center;
+    }
+    .menu .menuTrigger{
+      position:relative;
+      z-index:82;
+      padding:10px 10px;
+      border-radius:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+    }
+    .menu .menuTrigger:hover{
+      background: rgba(255,255,255,.06);
+      color:#fff;
+    }
+    .menu .menuCaret{
+      font-size:10px;
+      opacity:.82;
+      transform: translateY(1px);
+    }
+    .megaMenu{
+      position:absolute;
+      top:calc(100% + 14px);
+      left:50%;
+      transform:translateX(-50%) translateY(8px);
+      width:760px;
+      max-width:calc(100vw - 120px);
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(700px 240px at 15% 0%, rgba(246,161,0,.08), transparent 55%),
+        linear-gradient(180deg, rgba(7,19,39,.98), rgba(11,31,58,.98));
+      box-shadow: 0 24px 60px rgba(0,0,0,.42);
+      backdrop-filter: blur(14px);
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+      z-index:80;
+    }
+    .megaMenu::before{
+      content:"";
+      position:absolute;
+      top:-18px;
+      left:0;
+      right:0;
+      height:18px;
+      background:transparent;
+    }
+    .megaMenu::after{
+      content:"";
+      position:absolute;
+      top:-8px;
+      left:50%;
+      width:14px;
+      height:14px;
+      transform:translateX(-50%) rotate(45deg);
+      background: rgba(7,19,39,.98);
+      border-left:1px solid rgba(255,255,255,.10);
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .menu .menuItem:hover .megaMenu,
+    .menu .menuItem:focus-within .megaMenu,
+    .megaMenu:hover{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+    .megaHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+      padding:2px 4px 10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .megaTitle{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.86);
+    }
+    .megaHint{
+      font-size:11px;
+      font-weight:800;
+      color:rgba(255,255,255,.52);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .megaGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    .megaCard{
+      display:block;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      padding:14px;
+      min-height:126px;
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .megaCard::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(240px 90px at 10% 0%, rgba(246,161,0,.08), transparent 55%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .megaCard > *{ position:relative; z-index:1; }
+    .megaCard:hover{
+      background: rgba(255,255,255,.07);
+      border-color: rgba(246,161,0,.34);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(0,0,0,.22);
+    }
+    .megaIcon{
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      background: rgba(246,161,0,.14);
+      border:1px solid rgba(246,161,0,.28);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color: var(--orange-500);
+      font-size:11px;
+      margin-bottom:8px;
+      letter-spacing:.03em;
+      box-shadow: 0 10px 22px rgba(246,161,0,.10);
+    }
+    .megaCard h4{
+      margin:0 0 6px;
+      font-size:13px;
+      line-height:1.32;
+      letter-spacing:-.01em;
+      color:#fff;
+    }
+    .megaCard p{
+      margin:0;
+      color:rgba(255,255,255,.70);
+      font-size:12px;
+      line-height:1.45;
+    }
+    .megaCard .miniLink{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:9px;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.03em;
+      color:rgba(246,161,0,.96);
+      text-transform:uppercase;
+    }
+    @media (max-width: 980px){
+      .menu .menuItem{display:none;}
+    }
+
+    .actions{display:flex;gap:10px;min-width:260px;justify-content:flex-end}
+
+    /* BUTTONS */
+    .btn{
+      position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:12px 16px;border-radius:14px;font-weight:800;letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;
+      user-select:none;overflow:hidden;transform:translateZ(0);cursor:pointer;
+      transition:transform .18s ease,background .18s ease;
+    }
+    .btn:hover{background:rgba(255,255,255,.10);transform:translateY(-1px)}
+    .btn.primary{
+      color:#081426;border-color:rgba(246,161,0,.60);
+      background:linear-gradient(180deg, var(--orange-500), var(--orange-600));
+      box-shadow:0 18px 40px rgba(246,161,0,.22),0 0 0 1px rgba(246,161,0,.22) inset;
+    }
+    .btn.primary::before{
+      content:"";position:absolute;inset:-2px;
+      background:radial-gradient(12px 12px at 18% 35%, rgba(255,255,255,.75), transparent 60%),
+        radial-gradient(10px 10px at 70% 30%, rgba(255,255,255,.55), transparent 62%),
+        radial-gradient(14px 14px at 82% 70%, rgba(255,255,255,.40), transparent 65%),
+        linear-gradient(120deg, transparent 0%, rgba(255,255,255,.40) 45%, transparent 55%);
+      opacity:.35;mix-blend-mode:soft-light;transform:translateX(-40%) rotate(8deg);pointer-events:none;
+    }
+    .btn.primary::after{
+      content:"";position:absolute;top:-40%;left:-60%;width:40%;height:200%;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+      transform:skewX(-20deg);opacity:0;pointer-events:none;
+    }
+    .btn.primary:hover::after{animation:shine 1.1s ease forwards;opacity:.9}
+    @keyframes shine{0%{left:-60%}100%{left:130%}}
+
+    /* HERO */
+    .heroWrap{padding:18px 0 0}
+    .heroCard{
+      position:relative;overflow:hidden;border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);box-shadow:var(--shadow-lg);
+      background:
+        linear-gradient(90deg, rgba(7,19,39,.92) 0%, rgba(7,19,39,.64) 50%, rgba(7,19,39,.28) 100%),
+        radial-gradient(860px 520px at 82% 20%, rgba(246,161,0,.12), transparent 58%),
+        radial-gradient(1000px 620px at 15% 10%, rgba(56,189,248,.10), transparent 62%),
+        url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    }
+    .heroInner{position:relative;z-index:2;min-height:420px;display:grid;grid-template-columns:1.08fr .92fr;gap:18px;padding:56px 50px 40px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:rgba(255,255,255,.88);font-weight:900;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+    .eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--orange-500);box-shadow:0 0 0 3px rgba(246,161,0,.18);display:inline-block}
+    .heroText h1{margin:16px 0 14px;font-size:48px;line-height:1.05;letter-spacing:-1px}
+    .heroText p{margin:0 0 20px;color:rgba(255,255,255,.82);font-size:16px;line-height:1.72;max-width:68ch}
+    .heroBtns{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .heroPanel{border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);background:rgba(7,19,39,.58);backdrop-filter:blur(10px);box-shadow:var(--shadow-md);padding:20px;max-width:450px;justify-self:end}
+    .heroPanel h3{margin:0 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+    .heroPanel p{margin:0;font-size:13px;line-height:1.65;color:rgba(255,255,255,.78)}
+    .heroPanel .stack{margin-top:14px;display:grid;gap:10px}
+    .pill{padding:10px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);font-size:12px;font-weight:800;color:rgba(255,255,255,.88);display:inline-flex;align-items:center;gap:8px}
+    .pill i{width:8px;height:8px;border-radius:50%;background:var(--orange-500);box-shadow:0 0 0 3px rgba(246,161,0,.18);display:inline-block}
+
+    /* SECTIONS */
+    section{padding:60px 0;margin:0}
+    .sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}
+    .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:10px}
+    .h2{font-size:38px;line-height:1.12;margin:0 0 10px}
+    .subtext{margin:0;color:rgba(255,255,255,.74);max-width:74ch;line-height:1.65;font-size:14px}
+
+    /* CONTACT SECTION */
+    .contactWrap{
+      margin-top:14px;display:grid;grid-template-columns:1.1fr .9fr;gap:12px;align-items:stretch;
+    }
+    .formCard,.infoCard{
+      border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-md);padding:18px;
+    }
+    .formRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-size:12px;font-weight:900;letter-spacing:.2px;color:rgba(255,255,255,.82)}
+    .field input,.field select,.field textarea{
+      width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(7,19,39,.35);color:#fff;padding:12px;outline:none;font:inherit;font-size:13px;
+    }
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:rgba(255,180,0,.45);box-shadow:0 0 0 3px rgba(255,180,0,.14);
+    }
+    .field textarea{min-height:110px;resize:vertical}
+    .formActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .kpi{border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.05);padding:12px}
+    .kpi strong{display:block;font-size:16px;letter-spacing:.2px}
+    .kpi span{display:block;font-size:12px;color:rgba(255,255,255,.72);margin-top:4px;line-height:1.4}
+
+    /* ENGAGEMENT MODEL */
+    .engWrap{display:grid;grid-template-columns:1.05fr 1.95fr;gap:26px;align-items:start}
+    .engLeft{padding-top:6px;max-width:520px}
+    .engLeft .h2{font-size:40px;line-height:1.12;margin:0 0 12px}
+    .engLeft .subhead{margin:0;color:rgba(242,247,255,.74);line-height:1.6}
+    .engRight{min-width:0}
+    .engGrid{position:relative;display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:stretch}
+    .engStage{position:relative;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:22px 18px 20px;backdrop-filter:blur(8px);overflow:hidden;min-height:168px}
+    .engStage:before{content:"";position:absolute;inset:-1px;background:radial-gradient(520px 220px at 30% 15%, rgba(16,182,255,.10), transparent 55%),radial-gradient(520px 220px at 85% 85%, rgba(255,180,0,.10), transparent 55%);opacity:.9;pointer-events:none}
+    .engNo{position:absolute;top:14px;right:14px;font-weight:900;font-size:40px;letter-spacing:-.04em;color:rgba(255,255,255,.10);user-select:none}
+    .engStage h3{margin:0 0 10px;font-size:16px;letter-spacing:-.01em;position:relative}
+    .engStage p{margin:0;color:rgba(242,247,255,.74);line-height:1.6;font-size:14px;position:relative}
+    .engLine{position:absolute;left:6%;right:6%;top:50%;height:1px;background:rgba(255,255,255,.10);z-index:-1}
+
+    /* GRID UTILS */
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+    /* CTA BOX */
+    .ctaBox{border-radius:26px;border:1px solid rgba(255,255,255,.10);background:radial-gradient(850px 300px at 20% 0%, rgba(246,161,0,.10), transparent 58%), linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));box-shadow:var(--shadow-lg);padding:28px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+    .ctaBox h3{margin:0 0 8px;font-size:28px;letter-spacing:-.03em}
+    .ctaBox p{margin:0;color:rgba(255,255,255,.76);line-height:1.65}
+
+    /* FOOTER */
+    footer{padding:44px 0 54px;border-top:1px solid rgba(255,255,255,.09)}
+    .footGrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:26px}
+    .brandFooter{text-decoration:none;display:flex;align-items:center;gap:14px;margin-bottom:6px}
+    .brandFooter .brandTitle .name{font-size:15px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+    .brandFooter .brandTitle .sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+    .footLinks a{display:block;padding:7px 0;color:rgba(255,255,255,.72);opacity:.85}
+    .footLinks a:hover{opacity:1;color:#fff}
+    .small{font-size:12px;color:rgba(255,255,255,.62);margin-top:10px;line-height:1.6}
+
+    /* RESPONSIVE */
+    @media (max-width:1100px){
+      .actions{min-width:auto}
+      .heroInner{grid-template-columns:1fr;min-height:auto;padding:40px 22px 30px}
+      .heroPanel{justify-self:start;max-width:none}
+      .contactWrap{grid-template-columns:1fr}
+      .engWrap{grid-template-columns:1fr;gap:18px}
+      .engLeft{max-width:820px}
+      .engGrid{grid-template-columns:repeat(2,1fr)}
+      .engLine{display:none}
+      .grid-3,.footGrid{grid-template-columns:1fr}
+      .ctaBox{grid-template-columns:1fr}
+      .formRow{grid-template-columns:1fr}
+    }
+    @media (max-width:680px){
+      .heroText h1{font-size:34px}
+      .engGrid{grid-template-columns:1fr}
+      .engLeft .h2{font-size:32px}
+      .h2{font-size:32px}
+    }
+  </style>
+<style>
+/* ===== FOOTER REFINEMENT (Synced with index) ===== */
+footer{
+  margin-top:30px;
+  padding:44px 0 54px;
+  border-top:1px solid rgba(255,255,255,.09);
+  color:rgba(255,255,255,.70);
+}
+.footGrid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr 1fr;
+  gap:26px;
+}
+.footLinks a{
+  display:block;
+  padding:7px 0;
+  color:rgba(255,255,255,.72);
+  opacity:.85;
+}
+.footLinks a:hover{color:#fff;opacity:1}
+.small{font-size:12px;color:rgba(255,255,255,.62);margin-top:10px}
+.brandFooter{
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:6px;
+}
+.brandFooter .brandTitle .name{
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.brandFooter .brandTitle .sub{
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  opacity:.85;
+}
+footer .small{line-height:1.6;max-width:520px}
+@media (max-width: 980px){
+  footer{padding:38px 0 44px;}
+  .footGrid{grid-template-columns:1fr 1fr;gap:18px;}
+}
+@media (max-width: 560px){
+  .footGrid{grid-template-columns:1fr;gap:16px;}
+}
+</style>
+</head>
+<body>
+
+<div style="width:100%;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.08);text-align:center;padding:8px 10px;font-size:13px;letter-spacing:.04em;">
+  Let's Build Something Exceptional — Reach Out to Our Engineering Team
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <div class="logoMark" aria-hidden="true"></div>
+        <div class="brandTitle">
+          <div class="name">IES Engineering</div>
+          <div class="sub">Pvt. Ltd.</div>
+        </div>
+      </a>
+      <nav class="menu" aria-label="Primary Navigation">
+          <div class="menuItem">
+            <a class="menuTrigger" href="index.html#solutions" aria-haspopup="true" aria-expanded="false">Solutions <span class="menuCaret">▾</span></a>
+            <div class="megaMenu" aria-label="Solutions">
+              <div class="megaHead">
+                <div class="megaTitle">Core Capabilities</div>
+                <div class="megaHint">Explore solutions</div>
+              </div>
+              <div class="megaGrid">
+                <a class="megaCard" href="Solutions-digital-ai-infrastructure.html">
+                  <div class="megaIcon">INFRA</div>
+                  <h4>Digital &amp; AI Infrastructure</h4>
+                  <p>Enterprise networks, data centers, and AI-ready compute foundations for regulated and high-growth environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-data-platforms-global-namespace.html">
+                  <div class="megaIcon">DATA</div>
+                  <h4>Data Platforms &amp; Global Namespace Storage</h4>
+                  <p>High-performance data platforms and unified global namespace storage for AI workloads, analytics, and distributed enterprise environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-smart-buildings-critical-elv.html">
+                  <div class="megaIcon">ELV</div>
+                  <h4>Smart Buildings &amp; Critical ELV</h4>
+                  <p>Integrated ELV, surveillance, and automation infrastructure for secure, connected developments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-banking-national-infrastructure-systems.html">
+                  <div class="megaIcon">BANK</div>
+                  <h4>Banking &amp; National Infrastructure Systems</h4>
+                  <p>Security-led, high-availability systems for banks, government, and regulated sectors.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="menuItem">
+            <a class="menuTrigger" href="index.html#industries" aria-haspopup="true" aria-expanded="false">Industries <span class="menuCaret">▾</span></a>
+            <div class="megaMenu" aria-label="Industries">
+              <div class="megaHead">
+                <div class="megaTitle">Industries We Serve</div>
+                <div class="megaHint">Explore sectors</div>
+              </div>
+              <div class="megaGrid">
+                <a class="megaCard" href="Industries-banking-financial.html">
+                  <div class="megaIcon">BNK</div>
+                  <h4>Banking &amp; Financial Institutions</h4>
+                  <p>Secure, compliant, high-availability infrastructure and data platforms for HBL, UBL, Meezan and leading financial institutions.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-government-national.html">
+                  <div class="megaIcon">GOV</div>
+                  <h4>Government &amp; National Platforms</h4>
+                  <p>Scalable digital infrastructure for PSW, NADRA, and regulated public-sector environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-enterprise-corporate.html">
+                  <div class="megaIcon">ENT</div>
+                  <h4>Enterprise &amp; Corporate Organizations</h4>
+                  <p>AI-ready data, compute, and ICT backbone for CPG &amp; Retail, corporate groups, and multi-site operations.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-hospitality-mixed-use.html">
+                  <div class="megaIcon">HOT</div>
+                  <h4>Hospitality &amp; Mixed-Use Developments</h4>
+                  <p>Integrated ICT, ELV and smart infrastructure for Radisson Blu, Signature Rotana, PC Hotels, and premium properties.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <a href="index.html#leadership">Leadership</a>
+          <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+          <a href="partners.html">Partners</a>
+          <a href="hoteza-iptv-ies.html">Hoteza</a>
+          <span>Case Studies</span>
+          
+        </nav>
+      <div class="actions">
+        <a class="btn" href="mailto:hello@iespakistan.com">Email Us</a>
+        <a class="btn primary" href="#contactForm">Request Consultation</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="heroWrap">
+  <div class="container">
+    <div class="heroCard">
+      <div class="heroInner">
+        <div class="heroText">
+          <span class="eyebrow"><i></i> Contact Us</span>
+          <h1>Let's Engineer Your Next Infrastructure Milestone</h1>
+          <p>Whether you're planning a new data center, modernizing enterprise ICT, deploying AI-ready platforms, or securing critical infrastructure — our engineering team is ready to align with your objectives and deliver with precision.</p>
+          <div class="heroBtns">
+            <a class="btn primary" href="#contactForm">Submit a Project Request</a>
+            <a class="btn" href="mailto:hello@iespakistan.com">hello@iespakistan.com</a>
+          </div>
+        </div>
+        <div class="heroPanel">
+          <h3>How We Engage</h3>
+          <p>Every engagement begins with a structured discovery process. Submit your request and our team will respond within 24–48 hours with a discovery call, scope validation, and proposal roadmap.</p>
+          <div class="stack">
+            <span class="pill"><i></i> Discovery Call</span>
+            <span class="pill"><i></i> Scope Validation</span>
+            <span class="pill"><i></i> Proposal Roadmap</span>
+            <span class="pill"><i></i> Architecture Blueprint</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT FORM SECTION -->
+<section id="contactForm" class="section">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="eyebrow">Let's talk</div>
+        <h2 class="h2">Request a consultation</h2>
+      </div>
+      <p class="subtext"></p>
+    </div>
+
+    <div class="contactWrap">
+      <div class="formCard">
+        <div style="font-weight:900;letter-spacing:.2px;">Project Request Form</div>
+
+        <form id="iesContactForm">
+          <div class="formRow">
+            <div class="field">
+              <label>Full Name</label>
+              <input id="cf_name" placeholder="Your name" required />
+            </div>
+            <div class="field">
+              <label>Company</label>
+              <input id="cf_company" placeholder="Company name" />
+            </div>
+          </div>
+
+          <div class="formRow">
+            <div class="field">
+              <label>Email</label>
+              <input id="cf_email" type="email" placeholder="name@company.com" required />
+            </div>
+            <div class="field">
+              <label>Phone</label>
+              <input id="cf_phone" type="tel" placeholder="+92..." />
+            </div>
+          </div>
+
+          <div class="formRow">
+            <div class="field">
+              <label>Industry</label>
+              <select id="cf_industry">
+                <option>Banking &amp; Finance</option>
+                <option>Five-Star Hotel</option>
+                <option>Premium Shopping Mall</option>
+                <option>High-Rise Building</option>
+                <option>Corporate / Enterprise</option>
+                <option>Data Center</option>
+                <option>Government / National</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Solution Area</label>
+              <select id="cf_solution">
+                <option>ICT Infrastructure</option>
+                <option>Data Platforms &amp; Analytics</option>
+                <option>ELV &amp; Smart Buildings</option>
+                <option>Security &amp; Compliance</option>
+                <option>Digital &amp; AI Infrastructure</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:10px;">
+            <label>Project Summary</label>
+            <textarea id="cf_message" placeholder="Brief scope, site/location, timeline and expectations..." required></textarea>
+          </div>
+
+          <div class="formActions">
+            <button class="btn primary" type="submit">Submit Request</button>
+            <a class="btn" href="mailto:info@iespakistan.com?subject=Schedule%20Meeting%20Request%20-%20IES%20Engineering">Schedule Meeting</a>
+          </div>
+
+          <div class="formStatus" id="cf_status" aria-live="polite" style="margin-top:10px;color:rgba(255,255,255,.78);font-size:13px;"></div>
+        </form>
+      </div>
+
+      <div class="infoCard">
+        <div style="font-weight:900;letter-spacing:.2px;">Regional Delivery Coverage</div>
+        <p class="subtext" style="margin-top:10px;">
+          Supporting enterprise and regulated customers through structured delivery,
+          documentation, and long-term operational support across priority markets.
+        </p>
+
+        <div style="margin-top:14px; display:grid; gap:10px;">
+          <div class="kpi"><strong>Email</strong><span>hello@iespakistan.com</span></div>
+          <div class="kpi"><strong>Phone</strong><span>+92 42 3 230 1563</span></div>
+          <div class="kpi"><strong>Office</strong><span>Lahore - Islamabad - Karachi &bull; Pakistan</span></div>
+          <div class="kpi"><strong>Address</strong><span>50-N Gurumangat Road, Gulberg II — Lahore, Pakistan</span></div>
+        </div>
+
+        <div style="margin-top:14px; border-radius:18px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); padding:14px;">
+          <div style="font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.3px;">Typical response</div>
+          <div style="margin-top:6px;color:rgba(255,255,255,.78);font-size:12px;line-height:1.6;">
+            Within 24–48 hours: discovery call &rarr; scope validation &rarr; proposal roadmap.
+          </div>
+        </div>
+
+        <div style="margin-top:14px; border-radius:18px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); padding:14px;">
+          <div style="font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.3px;">Industries We Serve</div>
+          <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;">
+            <span class="pill" style="font-size:11px;padding:6px 10px;"><i></i> Banking &amp; Finance</span>
+            <span class="pill" style="font-size:11px;padding:6px 10px;"><i></i> Government</span>
+            <span class="pill" style="font-size:11px;padding:6px 10px;"><i></i> Enterprise</span>
+            <span class="pill" style="font-size:11px;padding:6px 10px;"><i></i> Hospitality</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICE LOCATIONS -->
+<section class="section">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Our Offices</div>
+        <h2 class="h2">Presence across Pakistan's key business hubs</h2>
+      </div>
+      <p class="subtext">With offices in Lahore, Islamabad, and Karachi, IES Engineering provides on-ground engineering support for enterprise and regulated customers nationwide.</p>
+    </div>
+
+    <div class="grid-3">
+      <div style="border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));box-shadow:var(--shadow-md);padding:22px;">
+        <div style="font-weight:900;font-size:14px;margin-bottom:8px;">Lahore — Head Office</div>
+        <p style="margin:0;color:rgba(255,255,255,.76);font-size:13px;line-height:1.65;">50-N Gurumangat Road, Gulberg II, Lahore, Pakistan</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.72);">
+          <div>+92 42 3 230 1563</div>
+          <div style="margin-top:4px;">hello@iespakistan.com</div>
+        </div>
+      </div>
+      <div style="border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));box-shadow:var(--shadow-md);padding:22px;">
+        <div style="font-weight:900;font-size:14px;margin-bottom:8px;">Islamabad</div>
+        <p style="margin:0;color:rgba(255,255,255,.76);font-size:13px;line-height:1.65;">Regional delivery and project coordination for government and national-scale deployments.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.72);">
+          Serving PSW, NADRA &amp; national platforms
+        </div>
+      </div>
+      <div style="border-radius:var(--radius-2xl);border:1px solid rgba(255,255,255,.10);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));box-shadow:var(--shadow-md);padding:22px;">
+        <div style="font-weight:900;font-size:14px;margin-bottom:8px;">Karachi</div>
+        <p style="margin:0;color:rgba(255,255,255,.76);font-size:13px;line-height:1.65;">Supporting enterprise and banking infrastructure projects across Pakistan's commercial capital.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.72);">
+          Serving HBL, UBL, Meezan &amp; enterprise clients
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGAGEMENT MODEL -->
+<section class="section">
+  <div class="container">
+    <div class="engWrap">
+      <div class="engLeft">
+        <div class="kicker">Engagement Model</div>
+        <h2 class="h2">Structured Execution for Enterprise Infrastructure</h2>
+        <p class="subhead">A governance-led approach that aligns objectives, secure architecture, and controlled delivery across mission-critical environments.</p>
+      </div>
+
+      <div class="engRight">
+        <div class="engGrid" aria-label="Engagement Model Steps">
+          <div class="engStage">
+            <div class="engNo">01</div>
+            <h3>Strategic Discovery</h3>
+            <p>Alignment workshops to define objectives, data strategy, constraints, and success criteria.</p>
+          </div>
+          <div class="engStage">
+            <div class="engNo">02</div>
+            <h3>Architecture Blueprint</h3>
+            <p>Secure, scalable infrastructure and data platform design aligned with enterprise standards.</p>
+          </div>
+          <div class="engStage">
+            <div class="engNo">03</div>
+            <h3>Governance &amp; Planning</h3>
+            <p>Phased roadmap, commercial structuring, risk alignment, and stakeholder reporting.</p>
+          </div>
+          <div class="engStage">
+            <div class="engNo">04</div>
+            <h3>Deployment &amp; Lifecycle</h3>
+            <p>Controlled implementation, validation, documentation, and long-term optimization.</p>
+          </div>
+          <div class="engLine" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="ctaBox">
+      <div>
+        <h3>Ready to Start Your Infrastructure Journey?</h3>
+        <p>From discovery to deployment and long-term optimization — IES Engineering is your trusted partner for enterprise and regulated infrastructure in Pakistan.</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a class="btn primary" href="#contactForm">Submit a Request</a>
+        <a class="btn" href="mailto:hello@iespakistan.com">Email Us Directly</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footGrid">
+      <div>
+        <div class="brand brandFooter">
+          <div class="logoMark" aria-hidden="true"></div>
+          <div class="brandTitle">
+            <div class="name">IES Engineering</div>
+            <div class="sub">Pvt. Ltd.</div>
+          </div>
+        </div>
+        <div class="small">&copy; <span id="year"></span> IES Engineering (Private) Limited. All rights reserved.</div>
+        <div class="small">Enterprise ICT Infrastructure &bull; Data Platforms &bull; ELV &amp; Smart Systems</div>
+      </div>
+
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Company</div>
+        <a href="index.html#leadership">Leadership</a>
+        <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Solutions</div>
+        <a href="index.html#solutions">ICT Infrastructure</a>
+        <a href="index.html#solutions">Data Platforms &amp; Analytics</a>
+        <a href="index.html#solutions">ELV &amp; Smart Buildings</a>
+        <a href="partners.html">Partners</a>
+      </div>
+
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Contact</div>
+        <a href="mailto:hello@iespakistan.com">hello@iespakistan.com</a>
+        <a href="tel:+924232301563">+92 42 3 230 1563</a>
+        <a href="#">50-N Gurumangat Road, Gulberg II — Lahore</a>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;font-size:13px;opacity:.75;">
+      Engineering secure digital infrastructure for regulated and mission-critical environments.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init('YXgD2spv8OojgFGkb');
+  })();
+
+  const form = document.getElementById('iesContactForm');
+  const statusEl = document.getElementById('cf_status');
+
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (statusEl) statusEl.textContent = "Sending…";
+
+      const params = {
+        from_name: document.getElementById('cf_name')?.value || '',
+        from_email: document.getElementById('cf_email')?.value || '',
+        company: document.getElementById('cf_company')?.value || '',
+        phone: document.getElementById('cf_phone')?.value || '',
+        industry: document.getElementById('cf_industry')?.value || '',
+        solution_area: document.getElementById('cf_solution')?.value || '',
+        message: document.getElementById('cf_message')?.value || ''
+      };
+
+      emailjs.send('service_3c5gwb4', 'template_t2h6qpg', params)
+        .then(function() {
+          if (statusEl) statusEl.textContent = "Sent successfully. We will get back to you shortly.";
+          form.reset();
+        })
+        .catch(function(err) {
+          if (statusEl) statusEl.textContent = "Something went wrong. Please email us directly.";
+          console.error('EmailJS error:', err);
+        });
+    });
+  }
+</script>
+
+</body>
+</html>

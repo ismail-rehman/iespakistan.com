@@ -1,0 +1,1511 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Your AI Is Running 24 Hours Behind | VAST Data Solution Brief — IES Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy-950:#060f1e; --navy-900:#09172e; --navy-850:#0e2244; --navy-800:#132b55;
+      --vast:#f59e0b; --vast-dim:rgba(245,158,11,.12); --vast-glow:rgba(245,158,11,.22);
+      --vast-2:#f97316; --orange:#f6a100;
+      --red:#ef4444; --red-dim:rgba(239,68,68,.12);
+      --green:#22c55e; --green-dim:rgba(34,197,94,.10);
+      --cyan:#06b6d4; --cyan-dim:rgba(6,182,212,.10);
+      --purple:#8b5cf6;
+      --radius-2xl:22px; --radius-xl:18px; --radius-lg:14px;
+      --shadow-lg:0 20px 55px rgba(0,0,0,.40);
+      --shadow-md:0 14px 38px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box} html,body{height:100%} html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,sans-serif; color:#fff;
+      background:
+        radial-gradient(1400px 700px at 10% 0%, rgba(245,158,11,.07), transparent 55%),
+        radial-gradient(1000px 800px at 90% 10%, rgba(249,115,22,.05), transparent 55%),
+        radial-gradient(800px 600px at 50% 100%, rgba(245,158,11,.04), transparent 55%),
+        linear-gradient(180deg, var(--navy-950) 0%, var(--navy-900) 100%);
+      overflow-x:hidden; -webkit-font-smoothing:antialiased;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:100%;margin:0 auto;padding:0 52px}
+    @media(max-width:960px){.container{padding:0 24px}}
+
+    /* ── TOPBAR ── */
+    .topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(7,19,39,.92),rgba(7,19,39,.62));backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:260px}
+    .logoMark{width:46px;height:34px;border:3px solid var(--orange);border-right-color:transparent;border-radius:8px;box-shadow:0 10px 22px rgba(246,161,0,.10)}
+    .brandTitle{display:flex;flex-direction:column;line-height:1.1}
+    .brandTitle .name{font-weight:800;text-transform:uppercase;letter-spacing:.6px;font-size:18px;display:block;line-height:1.1}
+    .brandTitle .sub{font-weight:700;font-size:12px;color:rgba(255,255,255,.70);display:block}
+    .menu{display:flex;align-items:center;gap:22px;color:rgba(255,255,255,.82);font-weight:600;white-space:nowrap}
+    .menu a{padding:10px 10px;border-radius:10px}
+    .menu a:hover{background:rgba(255,255,255,.06);color:#fff}
+    .actions{display:flex;gap:10px;min-width:260px;justify-content:flex-end}
+    .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border-radius:14px;font-weight:800;letter-spacing:.2px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;transition:transform .18s,background .18s;overflow:hidden}
+    .btn:hover{background:rgba(255,255,255,.10);transform:translateY(-1px)}
+    .btn.primary{color:#07101e;border-color:rgba(245,158,11,.60);
+      background:linear-gradient(160deg,var(--vast),var(--vast-2));
+      box-shadow:0 16px 38px rgba(245,158,11,.25)}
+    .btn.primary::after{content:"";position:absolute;top:-40%;left:-60%;width:40%;height:200%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.50),transparent);
+      transform:skewX(-20deg);opacity:0;pointer-events:none}
+    .btn.primary:hover::after{animation:shine 1.1s ease forwards;opacity:.9}
+    .btn.danger{color:#fff;border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.10)}
+    @keyframes shine{0%{left:-60%}100%{left:130%}}
+
+    /* ── HERO ── */
+    .heroWrap{padding:20px 0 0}
+    .heroCard{
+      position:relative;overflow:hidden;border-radius:30px;
+      border:1px solid rgba(245,158,11,.28);
+      box-shadow:0 36px 90px rgba(0,0,0,.50), 0 0 0 1px rgba(245,158,11,.07) inset;
+      min-height:560px;display:grid;
+      background:
+        linear-gradient(120deg,rgba(6,15,30,.98) 0%,rgba(6,15,30,.82) 42%,rgba(6,15,30,.42) 100%),
+        radial-gradient(1000px 550px at 82% 22%,rgba(245,158,11,.14),transparent 55%),
+        radial-gradient(700px 500px at 5% 85%,rgba(249,115,22,.07),transparent 55%),
+        url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;
+    }
+    .heroCard::before{
+      content:"24 HRS BEHIND";
+      position:absolute;right:-50px;top:-12px;
+      font-size:108px;font-weight:900;letter-spacing:-.06em;
+      color:rgba(245,158,11,.04);pointer-events:none;user-select:none;
+      line-height:1;white-space:nowrap;
+    }
+    .heroInner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;
+      gap:28px;padding:68px 56px 56px;align-items:center;min-height:560px}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:7px 16px;
+      border-radius:999px;border:1px solid rgba(239,68,68,.40);
+      background:rgba(239,68,68,.10);color:#fca5a5;font-weight:900;font-size:11px;
+      letter-spacing:.09em;text-transform:uppercase}
+    .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:#ef4444;
+      box-shadow:0 0 0 3px rgba(239,68,68,.25);animation:pulse 1.8s ease-in-out infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(239,68,68,.25)}50%{box-shadow:0 0 0 6px rgba(239,68,68,.08)}}
+    .heroText h1{margin:18px 0 16px;font-size:50px;line-height:1.02;letter-spacing:-1.4px}
+    .heroText h1 em{font-style:normal;color:var(--vast)}
+    .heroText p{margin:0 0 28px;color:rgba(255,255,255,.76);font-size:15px;line-height:1.76;max-width:56ch}
+    .heroBtns{display:flex;gap:12px;flex-wrap:wrap}
+    .confidentialBadge{
+      display:inline-flex;align-items:center;gap:8px;margin-top:20px;
+      padding:8px 16px;border-radius:10px;
+      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);
+      font-size:12px;font-weight:700;color:rgba(255,255,255,.48)
+    }
+
+    /* Hero right panel */
+    .heroPanel{
+      border-radius:var(--radius-2xl);border:1px solid rgba(245,158,11,.20);
+      background:rgba(6,15,30,.72);backdrop-filter:blur(18px);
+      box-shadow:var(--shadow-md);padding:28px;justify-self:end;width:100%;
+    }
+    .heroPanel .pLabel{font-size:11px;text-transform:uppercase;letter-spacing:.10em;
+      color:rgba(255,255,255,.40);margin:0 0 18px;font-weight:800}
+    .kpiGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .kpi{border-radius:14px;border:1px solid rgba(239,68,68,.20);background:rgba(239,68,68,.07);padding:16px}
+    .kpi strong{display:block;font-size:22px;font-weight:900;letter-spacing:-.03em;color:#f87171}
+    .kpi span{display:block;font-size:11px;color:rgba(255,255,255,.50);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;line-height:1.3}
+    .kpi.solved{border-color:rgba(245,158,11,.22);background:rgba(245,158,11,.07)}
+    .kpi.solved strong{color:var(--vast)}
+    .urgencyBar{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)}
+    .urgencyBar p{font-size:12px;color:rgba(255,255,255,.50);margin:0 0 10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .fragList{display:flex;flex-direction:column;gap:6px}
+    .fragItem{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.62);font-weight:600}
+    .fragItem .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .fragItem .dot.red{background:#ef4444}
+    .fragItem .dot.amber{background:var(--vast)}
+
+    /* ── SECTION HELPERS ── */
+    .section{padding:76px 0 0}
+    .kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+      color:rgba(255,255,255,.42);margin-bottom:10px;font-weight:700}
+    .h2{font-size:36px;line-height:1.10;margin:0 0 12px;letter-spacing:-.04em;font-weight:900}
+    .h2 em{font-style:normal;color:var(--vast)}
+    .h2 .red{color:#f87171}
+    .subtext{color:rgba(255,255,255,.65);line-height:1.74;font-size:14px;margin:0}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent);margin:72px 0 0}
+
+    /* ── PAIN CARDS ── */
+    .painGrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+    .painCard{
+      border-radius:var(--radius-xl);border:1px solid rgba(239,68,68,.16);
+      background:linear-gradient(145deg,rgba(239,68,68,.05),rgba(255,255,255,.02));
+      padding:28px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s;
+    }
+    .painCard:hover{border-color:rgba(239,68,68,.30);transform:translateY(-2px)}
+    .painCard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,#ef4444,rgba(239,68,68,.5),transparent)}
+    .painNum{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+      background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.28);
+      font-size:12px;font-weight:900;color:#f87171;flex-shrink:0}
+    .painCard h3{font-size:16px;font-weight:900;margin:0 0 10px;display:flex;align-items:center;gap:10px}
+    .painCard p{font-size:13px;color:rgba(255,255,255,.64);line-height:1.74;margin:0 0 16px}
+    .painMetric{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;
+      background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.20);
+      font-size:12px;font-weight:800;color:#fca5a5}
+
+    /* ── FRAGMENTATION ARCHITECTURE VISUAL ── */
+    .archSection{padding:76px 0 0}
+    .archCard{
+      border-radius:30px;border:1px solid rgba(239,68,68,.20);
+      background:
+        radial-gradient(800px 400px at 50% 0%,rgba(239,68,68,.05),transparent 55%),
+        linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      box-shadow:0 30px 72px rgba(0,0,0,.36);
+      padding:50px;overflow:hidden;position:relative;
+    }
+    .archCard::after{content:"FRAGMENTED";position:absolute;right:-30px;top:-10px;
+      font-size:140px;font-weight:900;letter-spacing:-.05em;
+      color:rgba(239,68,68,.03);pointer-events:none;user-select:none;line-height:1}
+    .archHeader{margin-bottom:44px}
+    .archHeader h2{font-size:28px;font-weight:900;letter-spacing:-.03em;margin:0 0 10px}
+    .archHeader h2 em{color:#f87171;font-style:normal}
+    .archHeader p{font-size:14px;color:rgba(255,255,255,.62);line-height:1.72;margin:0;max-width:74ch}
+
+    /* Before/After comparison */
+    .cpuGpuCompare{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;margin-bottom:48px}
+    .compareBox{border-radius:var(--radius-xl);padding:28px;border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+    .compareBox.before{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.22)}
+    .compareBox.before::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,#ef4444,rgba(239,68,68,.4),transparent)}
+    .compareBox.after{background:rgba(245,158,11,.04);border-color:rgba(245,158,11,.26)}
+    .compareBox.after::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--vast),rgba(245,158,11,.4),transparent)}
+    .compareLabel{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:0 0 14px}
+    .compareLabel.red{color:#f87171}
+    .compareLabel.amber{color:var(--vast)}
+    .compareTitle{font-size:20px;font-weight:900;margin:0 0 8px;letter-spacing:-.02em}
+    .compareTitle.red{color:#f87171}
+    .compareTitle.amber{color:var(--vast)}
+    .compareDesc{font-size:13px;color:rgba(255,255,255,.58);line-height:1.70;margin:0 0 20px}
+    .compareSpecs{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+    .compareSpecs li{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.55)}
+    .compareSpecs li .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .vsArrow{display:flex;flex-direction:column;align-items:center;gap:8px}
+    .vsArrow .vsText{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.30);font-weight:700}
+    .vsArrow .arrow{width:52px;height:52px;border-radius:50%;border:2px solid rgba(245,158,11,.32);
+      background:rgba(245,158,11,.08);display:grid;place-items:center;font-size:20px}
+
+    /* Fragmentation diagram */
+    .fragDiagram{margin-bottom:48px}
+    .fragDiagram h3{font-size:15px;font-weight:900;margin:0 0 22px;color:rgba(255,255,255,.88)}
+    .fragSystems{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+    .fragSystem{
+      border-radius:14px;border:1px solid rgba(239,68,68,.22);background:rgba(239,68,68,.06);
+      padding:16px 12px;text-align:center;position:relative;
+    }
+    .fragSystem::after{content:"";position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);
+      width:2px;height:20px;background:rgba(239,68,68,.30)}
+    .fragSystem .sysIcon{font-size:22px;display:block;margin-bottom:8px}
+    .fragSystem h4{font-size:11px;font-weight:900;margin:0 0 4px;color:rgba(255,255,255,.80)}
+    .fragSystem p{font-size:10px;color:#f87171;margin:0;font-weight:700}
+    .fragConnector{
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      padding:14px 24px;margin:0 0 20px;border-radius:12px;
+      border:1px solid rgba(239,68,68,.22);background:rgba(239,68,68,.06);
+      font-size:13px;color:#fca5a5;font-weight:700;
+    }
+    .fragResult{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .fragResultItem{border-radius:12px;border:1px solid rgba(239,68,68,.18);background:rgba(239,68,68,.05);
+      padding:14px 16px;display:flex;align-items:center;gap:10px}
+    .fragResultItem .rIcon{font-size:18px;flex-shrink:0}
+    .fragResultItem h4{font-size:12px;font-weight:800;margin:0 0 2px;color:#fca5a5}
+    .fragResultItem p{font-size:11px;color:rgba(255,255,255,.48);margin:0;line-height:1.45}
+
+    /* Latency timeline bars */
+    .latencySection{margin-bottom:10px}
+    .latencySection h3{font-size:15px;font-weight:900;margin:0 0 22px;color:rgba(255,255,255,.88)}
+    .timelineRows{display:flex;flex-direction:column;gap:14px}
+    .tlRow{display:grid;grid-template-columns:160px 1fr 90px;align-items:center;gap:14px}
+    .tlLabel{font-size:12px;font-weight:700;color:rgba(255,255,255,.58);text-align:right}
+    .tlBar{height:34px;border-radius:9px;background:rgba(255,255,255,.04)}
+    .tlFill{height:100%;border-radius:9px;display:flex;align-items:center;padding:0 14px;font-size:11px;font-weight:800;white-space:nowrap}
+    .tlFill.bad{background:linear-gradient(90deg,rgba(239,68,68,.65),rgba(239,68,68,.35));color:#fca5a5;width:100%}
+    .tlFill.good{background:linear-gradient(90deg,rgba(245,158,11,.80),rgba(245,158,11,.45));color:#fde68a}
+    .tlTime{font-size:13px;font-weight:900;text-align:right}
+    .tlTime.red{color:#f87171}
+    .tlTime.amber{color:var(--vast)}
+    .speedBadge{display:inline-flex;align-items:center;gap:10px;margin-top:18px;
+      padding:11px 20px;border-radius:13px;
+      background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.26);
+      font-size:13px;font-weight:800;color:#fde68a}
+    .speedBadge strong{font-size:20px;color:var(--vast)}
+
+    /* ── VAST DATA SOLUTION SECTION ── */
+    .vastSection{padding:76px 0 0}
+    .vastHero{
+      border-radius:30px;position:relative;overflow:hidden;
+      border:1px solid rgba(245,158,11,.32);
+      box-shadow:0 28px 68px rgba(0,0,0,.38), 0 0 48px rgba(245,158,11,.05) inset;
+      padding:52px;
+      background:
+        radial-gradient(1000px 450px at 70% 25%,rgba(245,158,11,.11),transparent 55%),
+        radial-gradient(700px 500px at 10% 80%,rgba(249,115,22,.07),transparent 55%),
+        linear-gradient(140deg,rgba(6,15,30,.98),rgba(9,23,46,.95));
+    }
+    .vastHero::before{content:"VAST DATA";position:absolute;right:-30px;top:-18px;
+      font-size:155px;font-weight:900;letter-spacing:-.04em;
+      color:rgba(245,158,11,.04);pointer-events:none;user-select:none;line-height:1}
+    .vastInner{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;position:relative;z-index:1}
+    .vastBadge{display:inline-flex;align-items:center;gap:10px;padding:7px 16px;
+      border-radius:999px;border:1px solid rgba(245,158,11,.40);
+      background:rgba(245,158,11,.10);color:#fcd34d;font-weight:900;font-size:11px;
+      letter-spacing:.09em;text-transform:uppercase;margin-bottom:20px}
+    .vastBadge i{width:7px;height:7px;border-radius:50%;background:var(--vast);display:inline-block}
+    .vastHero h2{font-size:30px;font-weight:900;letter-spacing:-.03em;margin:0 0 16px}
+    .vastHero h2 em{font-style:normal;color:var(--vast)}
+    .vastHero p{font-size:14px;color:rgba(255,255,255,.70);line-height:1.74;margin:0 0 22px}
+    .vastBullets{display:flex;flex-direction:column;gap:10px;margin-bottom:26px}
+    .vBullet{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,.74);line-height:1.55}
+    .vBullet::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--vast);flex-shrink:0;margin-top:5px}
+    .vastStats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .vStat{border-radius:var(--radius-lg);padding:20px;
+      background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.20);position:relative;overflow:hidden}
+    .vStat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--vast),transparent)}
+    .vStat strong{display:block;font-size:28px;font-weight:900;letter-spacing:-.04em;color:var(--vast);line-height:1}
+    .vStat span{display:block;font-size:11px;color:rgba(255,255,255,.48);margin-top:5px;
+      text-transform:uppercase;letter-spacing:.06em;line-height:1.38}
+
+    /* ── HOW VAST FIXES EACH PROBLEM ── */
+    .fixSection{padding:76px 0 0}
+    .fixGrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+    .fixCard{
+      border-radius:var(--radius-xl);border:1px solid rgba(245,158,11,.16);
+      background:linear-gradient(145deg,rgba(245,158,11,.05),rgba(255,255,255,.02));
+      padding:28px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s;
+    }
+    .fixCard:hover{border-color:rgba(245,158,11,.32);transform:translateY(-3px)}
+    .fixCard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--vast),rgba(245,158,11,.4),transparent)}
+    .fixIcon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:22px;
+      background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.24);margin-bottom:14px}
+    .fixCard h3{font-size:16px;font-weight:900;margin:0 0 8px;color:#fff}
+    .fixCard .problem{font-size:12px;color:#f87171;font-weight:700;margin:0 0 10px;
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 10px;border-radius:7px;background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.18)}
+    .fixCard p{font-size:13px;color:rgba(255,255,255,.64);line-height:1.74;margin:0 0 14px}
+    .fixResult{display:inline-flex;align-items:center;gap:6px;
+      padding:5px 12px;border-radius:8px;
+      background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.22);
+      font-size:12px;font-weight:800;color:#fde68a}
+
+    /* ── TECHNOLOGY ARCHITECTURE STACK ── */
+    .stackSection{padding:76px 0 0}
+    .stackCard{
+      border-radius:30px;border:1px solid rgba(245,158,11,.22);
+      background:
+        radial-gradient(900px 400px at 55% 20%,rgba(245,158,11,.07),transparent 55%),
+        linear-gradient(140deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      box-shadow:0 28px 70px rgba(0,0,0,.34);
+      padding:50px;overflow:hidden;position:relative;
+    }
+    .stackCard::after{content:"ARCHITECTURE";position:absolute;right:-40px;top:-12px;
+      font-size:120px;font-weight:900;color:rgba(245,158,11,.03);
+      pointer-events:none;user-select:none;line-height:1;letter-spacing:-.05em}
+    .stackHeader{margin-bottom:44px}
+    .stackHeader h2{font-size:28px;font-weight:900;letter-spacing:-.03em;margin:0 0 10px}
+    .stackHeader h2 em{color:var(--vast);font-style:normal}
+    .stackHeader p{font-size:14px;color:rgba(255,255,255,.62);line-height:1.72;max-width:72ch;margin:0}
+
+    /* Pipeline flow */
+    .pipeline{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:10px;margin-bottom:44px}
+    .pipeStage{flex:1;min-width:148px;display:flex;flex-direction:column;align-items:center;position:relative}
+    .pipeStage:not(:last-child)::after{
+      content:"";position:absolute;right:-18px;top:50%;transform:translateY(-50%);
+      width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;
+      border-left:14px solid rgba(245,158,11,.30);z-index:2}
+    .pipeBox{
+      width:100%;border-radius:16px;padding:20px 14px;
+      border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);
+      display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;flex:1;
+      transition:border-color .2s,background .2s;cursor:default;
+    }
+    .pipeBox:hover{border-color:rgba(245,158,11,.32);background:rgba(245,158,11,.06)}
+    .pipeIcon{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;flex-shrink:0}
+    .pipeBox h4{font-size:13px;font-weight:900;margin:0;letter-spacing:-.01em}
+    .pipeBox p{font-size:11px;color:rgba(255,255,255,.52);margin:0;line-height:1.54}
+    .pipeTech{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      padding:4px 10px;border-radius:999px;margin-top:4px}
+    .stage-source .pipeIcon{background:rgba(239,68,68,.16);border:1.5px solid rgba(239,68,68,.32);color:#fca5a5}
+    .stage-source .pipeTech{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.22);color:#fca5a5}
+    .stage-ingest .pipeIcon{background:rgba(6,182,212,.16);border:1.5px solid rgba(6,182,212,.32);color:#67e8f9}
+    .stage-ingest .pipeTech{background:rgba(6,182,212,.10);border:1px solid rgba(6,182,212,.22);color:#67e8f9}
+    .stage-vast .pipeIcon{background:rgba(245,158,11,.18);border:1.5px solid rgba(245,158,11,.35);color:var(--vast)}
+    .stage-vast .pipeTech{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);color:var(--vast)}
+    .stage-ai .pipeIcon{background:rgba(139,92,246,.18);border:1.5px solid rgba(139,92,246,.35);color:#c4b5fd}
+    .stage-ai .pipeTech{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.28);color:#c4b5fd}
+    .stage-agent .pipeIcon{background:rgba(34,197,94,.16);border:1.5px solid rgba(34,197,94,.32);color:#86efac}
+    .stage-agent .pipeTech{background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.22);color:#86efac}
+    .stage-fraud .pipeIcon{background:rgba(249,115,22,.18);border:1.5px solid rgba(249,115,22,.35);color:#fdba74}
+    .stage-fraud .pipeTech{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.28);color:#fdba74}
+
+    /* GPU/VAST stack layers */
+    .gpuStack{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:12px}
+    .stackLayer{border-radius:var(--radius-lg);border:1px solid rgba(245,158,11,.18);
+      background:rgba(245,158,11,.05);padding:18px;text-align:center;position:relative}
+    .stackLayer::before{content:"";position:absolute;top:0;left:20%;right:20%;height:2px;
+      background:linear-gradient(90deg,transparent,var(--vast),transparent)}
+    .stackIcon{font-size:26px;margin-bottom:10px;display:block}
+    .stackLayer h4{font-size:12px;font-weight:900;margin:0 0 6px;color:var(--vast)}
+    .stackLayer p{font-size:11px;color:rgba(255,255,255,.53);line-height:1.60;margin:0}
+
+    /* ── VECTOR SEARCH CALLOUT ── */
+    .vectorSection{padding:76px 0 0}
+    .vectorCard{
+      border-radius:30px;border:1px solid rgba(139,92,246,.28);
+      background:
+        radial-gradient(900px 400px at 65% 30%,rgba(139,92,246,.09),transparent 55%),
+        linear-gradient(140deg,rgba(6,15,30,.98),rgba(9,23,46,.95));
+      box-shadow:0 24px 62px rgba(0,0,0,.36);
+      padding:50px;overflow:hidden;position:relative;
+    }
+    .vectorCard::before{content:"VECTOR AI";position:absolute;right:-20px;top:-18px;
+      font-size:145px;font-weight:900;color:rgba(139,92,246,.04);
+      pointer-events:none;user-select:none;line-height:1;letter-spacing:-.05em}
+    .vectorInner{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center;position:relative;z-index:1}
+    .vectorLeft h2{font-size:28px;font-weight:900;letter-spacing:-.03em;margin:0 0 14px}
+    .vectorLeft h2 em{color:#c4b5fd;font-style:normal}
+    .vectorLeft p{font-size:14px;color:rgba(255,255,255,.68);line-height:1.74;margin:0 0 22px}
+    .useCase{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;
+      padding:14px 16px;border-radius:13px;border:1px solid rgba(139,92,246,.18);background:rgba(139,92,246,.06)}
+    .ucIcon{font-size:18px;flex-shrink:0;margin-top:1px}
+    .useCase h4{font-size:13px;font-weight:800;margin:0 0 3px;color:#c4b5fd}
+    .useCase p{font-size:12px;color:rgba(255,255,255,.55);margin:0;line-height:1.5}
+    .vectorStats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .vvStat{border-radius:16px;border:1px solid rgba(139,92,246,.20);background:rgba(139,92,246,.07);
+      padding:20px;position:relative;overflow:hidden}
+    .vvStat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--purple),transparent)}
+    .vvStat strong{display:block;font-size:26px;font-weight:900;letter-spacing:-.04em;color:#c4b5fd}
+    .vvStat span{display:block;font-size:11px;color:rgba(255,255,255,.48);margin-top:5px;
+      text-transform:uppercase;letter-spacing:.06em}
+
+    /* ── OUTCOMES ── */
+    .outcomesSection{padding:76px 0 0}
+    .outcomesCard{
+      border-radius:30px;border:1px solid rgba(245,158,11,.22);
+      background:
+        radial-gradient(900px 400px at 30% 50%,rgba(245,158,11,.07),transparent 55%),
+        linear-gradient(140deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      box-shadow:0 28px 70px rgba(0,0,0,.35);overflow:hidden
+    }
+    .outcomesInner{display:grid;grid-template-columns:1.2fr .8fr;min-height:380px}
+    .outLeft{padding:44px;border-right:1px solid rgba(255,255,255,.07)}
+    .outLeft h2{font-size:30px;font-weight:900;letter-spacing:-.03em;margin:0 0 14px}
+    .outLeft h2 em{font-style:normal;color:var(--vast)}
+    .outLeft > p{font-size:14px;color:rgba(255,255,255,.68);line-height:1.74;margin:0 0 28px}
+    .outcomeList{display:flex;flex-direction:column;gap:12px}
+    .outcomeItem{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:13px;
+      border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03)}
+    .outIcon{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:grid;place-items:center}
+    .outcomeItem h4{font-size:13px;font-weight:800;margin:0 0 3px}
+    .outcomeItem p{font-size:12px;color:rgba(255,255,255,.54);margin:0;line-height:1.5}
+    .outRight{padding:44px;display:flex;flex-direction:column;gap:12px}
+    .outStat{border-radius:18px;border:1px solid rgba(245,158,11,.20);background:rgba(245,158,11,.06);
+      padding:20px 18px;position:relative;overflow:hidden;flex:1}
+    .outStat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--vast),transparent)}
+    .outStat strong{display:block;font-size:32px;font-weight:900;letter-spacing:-.04em;color:var(--vast)}
+    .outStat span{display:block;font-size:11px;color:rgba(255,255,255,.50);margin-top:5px;
+      text-transform:uppercase;letter-spacing:.07em}
+    .outQuote{border-radius:18px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);
+      padding:22px;flex:1.4;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+    .outQuote::before{content:""";position:absolute;top:-10px;left:16px;font-size:56px;
+      color:var(--vast);opacity:.35;line-height:1;font-family:Georgia,serif}
+    .outQuote p{margin:0;font-size:13px;line-height:1.72;color:rgba(255,255,255,.76);font-style:italic;padding-top:14px}
+    .outQuote .src{margin-top:12px;font-size:11px;font-weight:800;color:var(--vast);letter-spacing:.04em;text-transform:uppercase;font-style:normal}
+
+    /* ── TECH STACK STRIP ── */
+    .techStrip{margin-top:28px;padding:26px 30px;border-radius:var(--radius-xl);
+      border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02)}
+    .techStrip h4{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+      color:rgba(255,255,255,.36);margin:0 0 16px}
+    .chipRow{display:flex;flex-wrap:wrap;gap:9px}
+    .chip{padding:7px 14px;border-radius:999px;font-size:12px;font-weight:700;
+      border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:rgba(255,255,255,.68)}
+    .chip.vast{background:rgba(245,158,11,.11);border-color:rgba(245,158,11,.26);color:#fde68a}
+    .chip.purple{background:rgba(139,92,246,.10);border-color:rgba(139,92,246,.24);color:#c4b5fd}
+    .chip.cyan{background:rgba(6,182,212,.10);border-color:rgba(6,182,212,.22);color:#67e8f9}
+
+    /* ── CTA ── */
+    .ctaSection{padding:84px 0}
+    .ctaCard{
+      border-radius:30px;padding:60px 56px;text-align:center;position:relative;overflow:hidden;
+      border:1px solid rgba(245,158,11,.24);
+      background:
+        radial-gradient(900px 450px at 50% -10%,rgba(245,158,11,.08),transparent 55%),
+        linear-gradient(140deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      box-shadow:0 24px 62px rgba(0,0,0,.32)
+    }
+    .ctaCard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,transparent 5%,var(--vast) 50%,transparent 95%)}
+    .ctaCard .ctaEye{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+      color:rgba(245,158,11,.70);font-weight:900;margin:0 0 16px}
+    .ctaCard h2{font-size:36px;font-weight:900;letter-spacing:-.04em;margin:0 0 16px}
+    .ctaCard h2 em{font-style:normal;color:var(--vast)}
+    .ctaCard p{font-size:15px;color:rgba(255,255,255,.62);max-width:56ch;margin:0 auto 34px;line-height:1.72}
+    .ctaBtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    /* ── FOOTER ── */
+    footer{margin-top:30px;padding:44px 0 54px;border-top:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.70);background:transparent}
+    .footGrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:26px}
+    .brandFooter{text-decoration:none;display:flex;align-items:center;gap:14px;margin-bottom:6px}
+    .brandFooter .brandTitle .name{font-size:15px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+    .brandFooter .brandTitle .sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+    .footLinks a{display:block;padding:7px 0;color:rgba(255,255,255,.72);opacity:.85;transition:color .15s}
+    .footLinks a:hover{color:#fff;opacity:1}
+    .small{font-size:12px;color:rgba(255,255,255,.62);margin-top:10px;line-height:1.6;max-width:520px}
+    @media(max-width:1050px){
+      .heroInner,.vastInner,.vectorInner,.outcomesInner,.cpuGpuCompare{grid-template-columns:1fr}
+      .heroPanel{display:none}
+      .fragSystems{grid-template-columns:repeat(3,1fr)}
+      .fragResult,.gpuStack{grid-template-columns:1fr 1fr}
+      .painGrid,.fixGrid{grid-template-columns:1fr}
+      .vectorStats,.vastStats,.vStat{grid-column:auto}
+      .footGrid{grid-template-columns:1fr 1fr;gap:22px}
+      .heroText h1{font-size:36px}
+      .ctaCard{padding:40px 28px}
+    }
+    @media(max-width:768px){
+      .fragSystems{grid-template-columns:1fr 1fr}
+      .fragResult{grid-template-columns:1fr}
+      .gpuStack{grid-template-columns:1fr}
+      .pipeline{flex-direction:column}
+      .pipeStage::after{display:none}
+      .footGrid{grid-template-columns:1fr}
+      .tlRow{grid-template-columns:110px 1fr 70px}
+    }
+
+    /* ══════════════ NVIDIA × VAST DATA SECTION ══════════════ */
+    :root{--nv:#76b900;--nv-dim:rgba(118,185,0,.10);--nv-glow:rgba(118,185,0,.18);--nv-text:#a3d900;}
+    .nvSection{padding:76px 0 0}
+    .nvCard{
+      border-radius:30px;position:relative;overflow:hidden;
+      border:1px solid rgba(118,185,0,.32);
+      box-shadow:0 36px 90px rgba(0,0,0,.52),0 0 60px rgba(118,185,0,.06) inset;
+      padding:52px;
+      background:
+        radial-gradient(1100px 500px at 70% 20%,rgba(118,185,0,.09),transparent 55%),
+        radial-gradient(700px 500px at 8% 85%,rgba(118,185,0,.05),transparent 55%),
+        linear-gradient(140deg,rgba(5,12,22,.99),rgba(8,20,38,.97));
+    }
+    .nvCard::before{content:"NVIDIA × VAST";position:absolute;right:-60px;top:-20px;
+      font-size:130px;font-weight:900;letter-spacing:-.05em;
+      color:rgba(118,185,0,.04);pointer-events:none;user-select:none;line-height:1;white-space:nowrap}
+    .nvBadge{display:inline-flex;align-items:center;gap:10px;padding:7px 18px;
+      border-radius:999px;border:1px solid rgba(118,185,0,.40);
+      background:rgba(118,185,0,.10);color:var(--nv-text);font-weight:900;font-size:11px;
+      letter-spacing:.10em;text-transform:uppercase;margin-bottom:22px}
+    .nvBadge i{width:7px;height:7px;border-radius:50%;background:var(--nv);display:inline-block;
+      box-shadow:0 0 8px rgba(118,185,0,.70)}
+    .nvCard .nvTitle{font-size:32px;font-weight:900;letter-spacing:-.04em;margin:0 0 12px}
+    .nvCard .nvTitle em{font-style:normal;color:var(--nv)}
+    .nvCard .nvSub{font-size:14px;color:rgba(255,255,255,.68);line-height:1.74;margin:0 0 44px;max-width:78ch}
+
+    /* ── Flow diagram ── */
+    .nvFlow{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:8px;margin-bottom:44px}
+    .nvFlowStep{flex:1;min-width:130px;display:flex;flex-direction:column;align-items:center;position:relative}
+    .nvFlowStep:not(:last-child)::after{
+      content:"";position:absolute;right:-20px;top:38px;
+      width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;
+      border-left:14px solid rgba(118,185,0,.35);z-index:2}
+    .nvFlowBox{
+      width:100%;border-radius:16px;padding:18px 12px 14px;text-align:center;
+      border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);
+      display:flex;flex-direction:column;align-items:center;gap:8px;
+      transition:border-color .2s,background .2s;cursor:default;
+    }
+    .nvFlowBox:hover{border-color:rgba(118,185,0,.30);background:rgba(118,185,0,.06)}
+    .nvFlowBox.highlight{border-color:rgba(118,185,0,.38);background:rgba(118,185,0,.08)}
+    .nvFlowIcon{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:26px;flex-shrink:0}
+    .nvFlowBox h4{font-size:12px;font-weight:900;margin:0;letter-spacing:-.01em;color:#fff}
+    .nvFlowBox p{font-size:10px;color:rgba(255,255,255,.50);margin:0;line-height:1.5}
+    .nvFlowTag{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      padding:3px 9px;border-radius:999px;margin-top:2px}
+    .nv-vast .nvFlowIcon{background:rgba(245,158,11,.16);border:1.5px solid rgba(245,158,11,.34);color:#fbbf24}
+    .nv-vast .nvFlowTag{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.22);color:#fde68a}
+    .nv-transfer .nvFlowIcon{background:rgba(6,182,212,.14);border:1.5px solid rgba(6,182,212,.30);color:#67e8f9}
+    .nv-transfer .nvFlowTag{background:rgba(6,182,212,.10);border:1px solid rgba(6,182,212,.20);color:#67e8f9}
+    .nv-rapids .nvFlowIcon{background:rgba(118,185,0,.16);border:1.5px solid rgba(118,185,0,.34);color:var(--nv-text)}
+    .nv-rapids .nvFlowTag{background:rgba(118,185,0,.10);border:1px solid rgba(118,185,0,.24);color:var(--nv-text)}
+    .nv-gpu .nvFlowIcon{background:rgba(118,185,0,.22);border:2px solid rgba(118,185,0,.46);color:#fff}
+    .nv-gpu .nvFlowTag{background:rgba(118,185,0,.14);border:1px solid rgba(118,185,0,.30);color:var(--nv-text)}
+    .nv-triton .nvFlowIcon{background:rgba(139,92,246,.16);border:1.5px solid rgba(139,92,246,.32);color:#c4b5fd}
+    .nv-triton .nvFlowTag{background:rgba(139,92,246,.10);border:1px solid rgba(139,92,246,.24);color:#c4b5fd}
+    .nv-result .nvFlowIcon{background:rgba(34,197,94,.16);border:1.5px solid rgba(34,197,94,.32);color:#86efac}
+    .nv-result .nvFlowTag{background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.22);color:#86efac}
+
+    /* ── CPU vs GPU compare ── */
+    .nvCompare{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:stretch;margin-bottom:44px}
+    .nvCompareBox{border-radius:var(--radius-xl);padding:30px;border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+    .nvCompareBox.cpu{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.22)}
+    .nvCompareBox.cpu::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,#ef4444,rgba(239,68,68,.4),transparent)}
+    .nvCompareBox.gpu{background:rgba(118,185,0,.05);border-color:rgba(118,185,0,.28)}
+    .nvCompareBox.gpu::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--nv),rgba(118,185,0,.4),transparent)}
+    .nvCompareLabel{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
+    .nvCompareLabel.red{color:#f87171}.nvCompareLabel.green{color:var(--nv-text)}
+    .nvCompareTitle{font-size:21px;font-weight:900;margin:0 0 10px;letter-spacing:-.02em}
+    .nvCompareTitle.red{color:#f87171}.nvCompareTitle.green{color:var(--nv-text)}
+    .nvCompareDesc{font-size:13px;color:rgba(255,255,255,.58);line-height:1.70;margin:0 0 20px}
+    .nvSpecList{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+    .nvSpecList li{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:rgba(255,255,255,.58);line-height:1.5}
+    .nvSpecList li .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+    .nvVsArrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+    .nvVsText{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);font-weight:700}
+    .nvVsCircle{width:56px;height:56px;border-radius:50%;border:2px solid rgba(118,185,0,.36);
+      background:rgba(118,185,0,.10);display:grid;place-items:center;font-size:22px}
+
+    /* ── NVIDIA GPU Stack layers ── */
+    .nvStack{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px}
+    .nvLayer{border-radius:var(--radius-lg);border:1px solid rgba(118,185,0,.20);
+      background:rgba(118,185,0,.05);padding:20px;text-align:center;position:relative;overflow:hidden}
+    .nvLayer::before{content:"";position:absolute;top:0;left:20%;right:20%;height:2px;
+      background:linear-gradient(90deg,transparent,var(--nv),transparent)}
+    .nvLayerIcon{font-size:28px;margin-bottom:10px;display:block}
+    .nvLayer h4{font-size:12px;font-weight:900;margin:0 0 7px;color:var(--nv-text)}
+    .nvLayer p{font-size:11px;color:rgba(255,255,255,.54);line-height:1.60;margin:0}
+
+    /* ── NVIDIA KPI row ── */
+    .nvKpiRow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .nvKpi{border-radius:16px;border:1px solid rgba(118,185,0,.22);background:rgba(118,185,0,.07);
+      padding:20px 18px;position:relative;overflow:hidden;text-align:center}
+    .nvKpi::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--nv),transparent)}
+    .nvKpi strong{display:block;font-size:28px;font-weight:900;letter-spacing:-.04em;color:var(--nv-text);line-height:1}
+    .nvKpi span{display:block;font-size:10px;color:rgba(255,255,255,.46);margin-top:5px;
+      text-transform:uppercase;letter-spacing:.06em;line-height:1.38}
+    /* Latency bars for GPU comparison */
+    .nvLatRows{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+    .nvLatRow{display:grid;grid-template-columns:170px 1fr 88px;align-items:center;gap:12px}
+    .nvLatLabel{font-size:12px;font-weight:700;color:rgba(255,255,255,.56);text-align:right}
+    .nvLatBar{height:32px;border-radius:8px;background:rgba(255,255,255,.04)}
+    .nvLatFill{height:100%;border-radius:8px;display:flex;align-items:center;padding:0 12px;font-size:10px;font-weight:800;white-space:nowrap}
+    .nvLatFill.cpu-fill{background:linear-gradient(90deg,rgba(239,68,68,.65),rgba(239,68,68,.30));color:#fca5a5;width:100%}
+    .nvLatFill.gpu-fill{background:linear-gradient(90deg,rgba(118,185,0,.80),rgba(118,185,0,.40));color:#d4f000}
+    .nvLatTime{font-size:13px;font-weight:900;text-align:right}
+    .nvLatTime.red{color:#f87171}.nvLatTime.nv{color:var(--nv-text)}
+    .nvSpeedBadge{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:13px;
+      background:rgba(118,185,0,.10);border:1px solid rgba(118,185,0,.28);
+      font-size:13px;font-weight:800;color:var(--nv-text)}
+    .nvSpeedBadge strong{font-size:22px;color:var(--nv)}
+    @media(max-width:1050px){
+      .nvCompare{grid-template-columns:1fr}
+      .nvVsArrow{flex-direction:row}
+      .nvStack,.nvKpiRow{grid-template-columns:1fr 1fr}
+      .nvFlow{flex-wrap:wrap}
+      .nvFlowStep::after{display:none}
+    }
+    @media(max-width:768px){
+      .nvStack,.nvKpiRow{grid-template-columns:1fr}
+      .nvLatRow{grid-template-columns:100px 1fr 64px}
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ TOPBAR -->
+<header class="topbar">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="brand">
+        <div class="logoMark"></div>
+        <div class="brandTitle">
+          <span class="name">IES Engineering</span>
+          <span class="sub">Pvt. Ltd.</span>
+        </div>
+      </a>
+      <div class="menu">
+        <a href="index.html#solutions">Solutions</a>
+        <a href="index.html#industries">Industries</a>
+        <a href="index.html#leadership">Leadership</a>
+        <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+        <a href="partners.html">Partners</a>
+        <a href="hoteza-iptv-ies.html">Hoteza</a>
+        <span>Case Studies</span>
+      </div>
+      <div class="actions">
+        <a href="contact.html" class="btn">Contact</a>
+        <a href="index.html#contact" class="btn primary">Engage With Our Engineering Team</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ══════════════ HERO -->
+<div class="container">
+  <div class="heroWrap">
+    <div class="heroCard">
+      <div class="heroInner">
+
+        <div class="heroText">
+          <div class="eyebrow">
+            <span class="pulse"></span>
+            Critical Performance Advisory · AI Infrastructure
+          </div>
+          <h1>Your AI Is Running<br><em>24 Hours Behind</em><br>Reality</h1>
+          <p>Batch pipelines, fragmented data silos, and multi-tier storage architectures are forcing your AI models to score yesterday's transactions, flag last night's fraud, and search vectors across stale data. Every hour of delay is risk your organisation is absorbing — invisibly. VAST Data eliminates the batch window entirely.</p>
+          <div class="heroBtns">
+            <a href="#cta" class="btn primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.29 6.29l.92-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Fix This Now
+            </a>
+            <a href="#problem" class="btn">See the Root Cause →</a>
+          </div>
+          <div class="confidentialBadge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Prepared exclusively for your organisation · IES Engineering — VAST Data Authorised Partner
+          </div>
+        </div>
+
+        <div class="heroPanel">
+          <p class="pLabel">Your Current Infrastructure Cost</p>
+          <div class="kpiGrid">
+            <div class="kpi">
+              <strong>24 hrs</strong>
+              <span>AI Results Delay<br>(Batch Cycle)</span>
+            </div>
+            <div class="kpi">
+              <strong>5–12×</strong>
+              <span>Slower BI Queries<br>Fragmented Systems</span>
+            </div>
+            <div class="kpi">
+              <strong>Stale</strong>
+              <span>Fraud Detection<br>Window</span>
+            </div>
+            <div class="kpi">
+              <strong>3–7</strong>
+              <span>Disconnected Data<br>Tiers in Use</span>
+            </div>
+          </div>
+          <div class="urgencyBar">
+            <p>After VAST Data</p>
+            <div class="fragList">
+              <div class="fragItem"><span class="dot amber"></span>AI inference: real-time (&lt;5ms)</div>
+              <div class="fragItem"><span class="dot amber"></span>Fraud detection: in-transaction</div>
+              <div class="fragItem"><span class="dot amber"></span>Vector search: milliseconds</div>
+              <div class="fragItem"><span class="dot amber"></span>Single unified data namespace</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PROBLEM SECTION -->
+  <div class="section" id="problem">
+    <p class="kicker">The Problem</p>
+    <h2 class="h2">Four Symptoms. <span class="red">One Root Cause.</span></h2>
+    <p class="subtext" style="max-width:70ch">Slow AI performance is rarely a model problem. It is almost always an infrastructure problem — specifically, multi-tier fragmented architectures that force AI, BI, and security systems to pull data across latency barriers that batch processing cannot hide forever.</p>
+    <div class="painGrid">
+      <div class="painCard">
+        <h3><span class="painNum">01</span>Batch Processing — AI Results One Day Old</h3>
+        <p>Your AI models are trained on and scoring against data exported in overnight batch jobs. By the time the inference pipeline runs, transactions are hours or days old. Risk decisions, credit scores, and anomaly detections are made on yesterday's reality — not the one unfolding right now.</p>
+        <span class="painMetric">⏱ 12–24 hr data lag — every decision cycle</span>
+      </div>
+      <div class="painCard">
+        <h3><span class="painNum">02</span>Real-Time Fraud Detection — Intercepting After the Fact</h3>
+        <p>Fraud models running on batch-export infrastructure identify suspicious patterns in end-of-day reports — after funds have already moved. The window to intercept is measured in milliseconds. Your current architecture operates in hours. Every false negative is a direct financial loss your systems never see coming.</p>
+        <span class="painMetric">⚠ Fraud identified retroactively — not at transaction time</span>
+      </div>
+      <div class="painCard">
+        <h3><span class="painNum">03</span>Multi-Tier Fragmentation Killing BI &amp; AI Performance</h3>
+        <p>Data moves between object storage, data lakes, relational warehouses, and specialised analytical engines — each hop adding latency, each tier requiring transformation. BI queries that could run in seconds wait for cross-tier data movement. AI pipelines stall at the storage bottleneck before a single inference is made.</p>
+        <span class="painMetric">🔴 5–12× query slowdown from tier-to-tier data movement</span>
+      </div>
+      <div class="painCard">
+        <h3><span class="painNum">04</span>Vector Search &amp; AI Agents — Latency That Breaks Real-Time</h3>
+        <p>Large language models, RAG pipelines, and AI agents rely on vector databases to retrieve contextually relevant data in milliseconds. When the vector index sits on slow or fragmented storage, retrieval latency explodes — turning sub-second AI interactions into multi-second waits that degrade every user-facing AI experience.</p>
+        <span class="painMetric">📊 Vector search latency &gt;800ms on conventional storage</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</div>
+
+<!-- ══════════════ ARCHITECTURE PROBLEM CARD (full bleed feel) -->
+<div class="container">
+  <div class="archSection" id="architecture">
+    <div class="archCard">
+
+      <div class="archHeader">
+        <p class="kicker" style="color:rgba(248,113,113,.65)">Why Your Architecture Is the Bottleneck</p>
+        <h2>The Fragmented Multi-Tier Problem — <em>Visualised</em></h2>
+        <p>Most enterprise AI performance issues trace back to the same architectural anti-pattern: data is siloed across incompatible systems, each with its own latency profile, access protocol, and transformation requirement. Every AI workload — inference, training, fraud detection, vector search — must navigate this maze before a single result is produced.</p>
+      </div>
+
+      <!-- Current fragmented state -->
+      <div class="fragDiagram">
+        <h3>Today — Your Data Lives Across Disconnected Islands</h3>
+        <div class="fragSystems">
+          <div class="fragSystem">
+            <span class="sysIcon">🏦</span>
+            <h4>Core Banking OLTP</h4>
+            <p>Row-based · Slow analytics</p>
+          </div>
+          <div class="fragSystem">
+            <span class="sysIcon">🗄️</span>
+            <h4>HDFS Data Lake</h4>
+            <p>Batch export · 12–24hr lag</p>
+          </div>
+          <div class="fragSystem">
+            <span class="sysIcon">📦</span>
+            <h4>Object Storage</h4>
+            <p>Cold tier · High latency</p>
+          </div>
+          <div class="fragSystem">
+            <span class="sysIcon">📊</span>
+            <h4>BI Warehouse</h4>
+            <p>Separate silo · Stale data</p>
+          </div>
+          <div class="fragSystem">
+            <span class="sysIcon">🤖</span>
+            <h4>AI/ML Platform</h4>
+            <p>Disconnected · Batch input</p>
+          </div>
+        </div>
+        <div class="fragConnector">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Each system requires ETL pipelines, data copies, and transformation jobs — adding hours of latency before AI can operate
+        </div>
+        <div class="fragResult">
+          <div class="fragResultItem">
+            <span class="rIcon">⏳</span>
+            <div>
+              <h4>AI Inference Stalled</h4>
+              <p>Models wait hours for ETL to deliver data from source systems</p>
+            </div>
+          </div>
+          <div class="fragResultItem">
+            <span class="rIcon">🔓</span>
+            <div>
+              <h4>Fraud Window Missed</h4>
+              <p>Anomaly detection runs after batch export — not at transaction time</p>
+            </div>
+          </div>
+          <div class="fragResultItem">
+            <span class="rIcon">📉</span>
+            <div>
+              <h4>BI Performance Degraded</h4>
+              <p>Cross-system queries traverse multiple tiers — minutes, not milliseconds</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Before / After -->
+      <div class="cpuGpuCompare">
+        <div class="compareBox before">
+          <p class="compareLabel red">Before — Fragmented Multi-Tier Architecture</p>
+          <p class="compareTitle red">Siloed Systems + Batch ETL</p>
+          <p class="compareDesc">Data copied nightly across 5+ systems. AI pipelines queued behind batch export jobs. No unified namespace — every workload requires a separate data movement operation before it can start processing.</p>
+          <ul class="compareSpecs">
+            <li><span class="dot" style="background:#ef4444"></span>AI inference delay: 12–24 hours (batch window)</li>
+            <li><span class="dot" style="background:#ef4444"></span>Fraud detection: retroactive — post-settlement</li>
+            <li><span class="dot" style="background:#ef4444"></span>Vector search latency: 800ms–2s on cold storage</li>
+            <li><span class="dot" style="background:#ef4444"></span>BI query time: 5–40 minutes on fragmented tiers</li>
+            <li><span class="dot" style="background:#ef4444"></span>Data freshness: yesterday's exports at best</li>
+            <li><span class="dot" style="background:#ef4444"></span>Storage management: 5+ separate systems, tools, teams</li>
+          </ul>
+        </div>
+
+        <div class="vsArrow">
+          <span class="vsText">VAST</span>
+          <div class="arrow">→</div>
+          <span class="vsText">Transform</span>
+        </div>
+
+        <div class="compareBox after">
+          <p class="compareLabel amber">After — VAST Data Unified Platform</p>
+          <p class="compareTitle amber">Single Namespace · All Workloads · Real-Time</p>
+          <p class="compareDesc">One storage platform serves every workload simultaneously — AI inference, vector search, fraud detection, BI analytics, and archival — without data movement, ETL pipelines, or batch export jobs. Data is live the moment it lands.</p>
+          <ul class="compareSpecs">
+            <li><span class="dot" style="background:var(--vast)"></span>AI inference: real-time, &lt;5ms data access latency</li>
+            <li><span class="dot" style="background:var(--vast)"></span>Fraud detection: in-transaction, before settlement</li>
+            <li><span class="dot" style="background:var(--vast)"></span>Vector search: sub-10ms on NVMe-oF fabric</li>
+            <li><span class="dot" style="background:var(--vast)"></span>BI query time: sub-second on columnar data</li>
+            <li><span class="dot" style="background:var(--vast)"></span>Data freshness: live — zero batch windows</li>
+            <li><span class="dot" style="background:var(--vast)"></span>Storage management: single platform, single namespace</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Latency timeline -->
+      <div class="latencySection">
+        <h3>Workload Latency Comparison — Same Data, Same Queries</h3>
+        <div class="timelineRows">
+          <div class="tlRow">
+            <span class="tlLabel">AI Fraud Inference</span>
+            <div class="tlBar"><div class="tlFill bad">Multi-tier batch — 18 hours to complete fraud scoring cycle</div></div>
+            <span class="tlTime red">18 hrs</span>
+          </div>
+          <div class="tlRow">
+            <span class="tlLabel">AI Fraud Inference</span>
+            <div class="tlBar"><div class="tlFill good" style="width:0.03%">VAST</div></div>
+            <span class="tlTime amber">&lt;3ms</span>
+          </div>
+          <div class="tlRow">
+            <span class="tlLabel">BI Analytics Query</span>
+            <div class="tlBar"><div class="tlFill bad">Fragmented tiers — cross-system join, 35 minutes</div></div>
+            <span class="tlTime red">35 min</span>
+          </div>
+          <div class="tlRow">
+            <span class="tlLabel">BI Analytics Query</span>
+            <div class="tlBar"><div class="tlFill good" style="width:0.05%">VAST</div></div>
+            <span class="tlTime amber">0.4s</span>
+          </div>
+          <div class="tlRow">
+            <span class="tlLabel">Vector Search (RAG)</span>
+            <div class="tlBar"><div class="tlFill bad">Object storage index — 1.4 seconds per query</div></div>
+            <span class="tlTime red">1.4s</span>
+          </div>
+          <div class="tlRow">
+            <span class="tlLabel">Vector Search (RAG)</span>
+            <div class="tlBar"><div class="tlFill good" style="width:0.8%">VAST</div></div>
+            <span class="tlTime amber">8ms</span>
+          </div>
+          <div class="tlRow">
+            <span class="tlLabel">AI Model Training</span>
+            <div class="tlBar"><div class="tlFill bad">HDFS data lake — ETL + training, 6 hours</div></div>
+            <span class="tlTime red">6 hrs</span>
+          </div>
+          <div class="tlRow">
+            <span class="tlLabel">AI Model Training</span>
+            <div class="tlBar"><div class="tlFill good" style="width:0.18%">VAST</div></div>
+            <span class="tlTime amber">22 min</span>
+          </div>
+        </div>
+        <div class="speedBadge">
+          <strong>4,000×+</strong> performance improvement on AI &amp; analytics workloads — same data, VAST Data storage
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ VAST DATA SOLUTION HERO -->
+<div class="container">
+  <div class="vastSection" id="solution">
+    <div class="vastHero">
+      <div class="vastInner">
+        <div>
+          <div class="vastBadge"><i></i> The Solution · VAST Data Platform</div>
+          <h2>One Platform. Every Workload.<br><em>Zero Batch Windows.</em></h2>
+          <p>VAST Data's Disaggregated Shared-Everything (DASE) architecture replaces your entire fragmented storage stack with a single universal platform that serves AI inference, vector search, BI analytics, fraud detection, and cold archival simultaneously — with sub-millisecond latency across all workloads, at any scale.</p>
+          <p style="font-size:14px;color:rgba(255,255,255,.62);line-height:1.74;margin:0 0 22px">Unlike traditional storage platforms that force you to choose between performance and capacity, VAST scales compute and storage independently. Your AI teams never wait for data — because data is always where they need it, in the format they need it, at the latency they require.</p>
+          <div class="vastBullets">
+            <div class="vBullet">Universal namespace — structured, unstructured, vector, and time-series data in a single tier, no ETL required</div>
+            <div class="vBullet">Native columnar database engine — analytics run on the storage layer itself, eliminating data movement entirely</div>
+            <div class="vBullet">Built-in vector database — millisecond similarity search at petabyte scale for AI agents and RAG pipelines</div>
+            <div class="vBullet">Kafka-native event bus for direct stream ingestion — data is live the moment it lands, no batch windows</div>
+            <div class="vBullet">Scales to 200+ petabytes in a single namespace — future-proof for any AI or archive growth trajectory</div>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="#cta" class="btn primary">Get a VAST Data Assessment</a>
+            <a href="#stack" class="btn">View Architecture →</a>
+          </div>
+        </div>
+        <div class="vastStats">
+          <div class="vStat" style="grid-column:1/-1">
+            <strong>4,000×</strong>
+            <span>Smaller Columnar Chunks Than Standard Parquet — Same Queries, Radically Less I/O</span>
+          </div>
+          <div class="vStat">
+            <strong>&lt;1ms</strong>
+            <span>NVMe-oF Read Latency Across All Workloads</span>
+          </div>
+          <div class="vStat">
+            <strong>200 PB</strong>
+            <span>Max Scale — Single Namespace, Zero Migration</span>
+          </div>
+          <div class="vStat">
+            <strong>60%</strong>
+            <span>Infrastructure Cost Reduction vs. Legacy HDFS</span>
+          </div>
+          <div class="vStat">
+            <strong>Zero</strong>
+            <span>Batch Export Jobs — Data Live on Arrival</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════ HOW VAST FIXES EACH PROBLEM -->
+  <div class="fixSection">
+    <p class="kicker">The VAST Data Fix</p>
+    <h2 class="h2">Every Problem You Have. <em>One Platform Solves Them All.</em></h2>
+    <p class="subtext" style="max-width:70ch">VAST Data was architectured from the ground up for the AI era — where every workload demands real-time data access, and no organisation can afford to run its intelligence layer on yesterday's exports.</p>
+    <div class="fixGrid">
+      <div class="fixCard">
+        <div class="fixIcon">⚡</div>
+        <h3>Eliminates Batch Processing Entirely</h3>
+        <span class="problem">↑ Your Issue: AI results 24 hrs stale</span>
+        <p>VAST Data's Kafka-native streaming ingest writes data directly to the NVMe fabric as events arrive — no ETL pipeline, no intermediate landing zone, no nightly batch export job. The moment a transaction is committed, it is available to every AI, BI, and analytics workload simultaneously. Your models stop running on yesterday. They run on now.</p>
+        <span class="fixResult">✓ Data fresh in &lt;100ms from source event</span>
+      </div>
+      <div class="fixCard">
+        <div class="fixIcon">🛡️</div>
+        <h3>Real-Time Fraud Detection — In the Transaction Window</h3>
+        <span class="problem">↑ Your Issue: Fraud flagged after settlement</span>
+        <p>VAST's sub-millisecond read latency means fraud models can score every transaction against a full historical dataset before settlement is authorised. Pattern matching across billions of records executes in under 5ms — inside the transaction window. The first time you see a fraud alert is before the money moves, not in tomorrow's exception report.</p>
+        <span class="fixResult">✓ Fraud inference: &lt;5ms — before settlement</span>
+      </div>
+      <div class="fixCard">
+        <div class="fixIcon">🔗</div>
+        <h3>Unifies Fragmented Systems Into One Namespace</h3>
+        <span class="problem">↑ Your Issue: Multi-tier data movement latency</span>
+        <p>VAST replaces your fragmented storage stack — object storage, data lake, warehouse, archive — with a single universal namespace. Structured, unstructured, and semi-structured data co-exist in one tier. No data movement between systems. No ETL pipelines maintaining synchronisation. Every team queries the same live data simultaneously without performance conflict.</p>
+        <span class="fixResult">✓ Single namespace: all data, zero movement</span>
+      </div>
+      <div class="fixCard">
+        <div class="fixIcon">🤖</div>
+        <h3>AI Agents &amp; BI at Full Native Speed</h3>
+        <span class="problem">↑ Your Issue: AI agents &amp; BI queries too slow</span>
+        <p>VAST's built-in columnar database engine runs analytics directly on the storage layer — eliminating the compute tier entirely for query workloads. BI dashboards that take minutes on fragmented architectures return in under a second. AI agents operate with VAST's native vector database at millisecond retrieval speed — keeping every interaction sub-second regardless of dataset size.</p>
+        <span class="fixResult">✓ BI queries: &lt;1s · AI agents: &lt;10ms retrieval</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</div>
+
+<!-- ══════════════ VAST ARCHITECTURE STACK -->
+<div class="container">
+  <div class="stackSection" id="stack">
+    <div class="stackCard">
+
+      <div class="stackHeader">
+        <p class="kicker" style="color:rgba(253,211,77,.65)">Recommended Solution Architecture</p>
+        <h2>The <em>VAST-Powered AI Pipeline</em> — From Source to Intelligence</h2>
+        <p>IES Engineering deploys a complete VAST Data-centred architecture that replaces your fragmented multi-tier storage with a single unified platform — connecting every source system directly to every AI, analytics, and compliance workload through one live data fabric.</p>
+      </div>
+
+      <!-- Pipeline -->
+      <div class="pipeline">
+        <div class="pipeStage stage-source">
+          <div class="pipeBox">
+            <div class="pipeIcon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#fca5a5" stroke-width="1.6"/><path d="M3 9h18M7 5v14" stroke="#fca5a5" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h4>Source Systems</h4>
+            <p>Core banking, CRM, ERP, compliance, and operational OLTP systems</p>
+            <span class="pipeTech">Live OLTP Events</span>
+          </div>
+        </div>
+        <div class="pipeStage stage-ingest">
+          <div class="pipeBox">
+            <div class="pipeIcon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4l8 8-8 8" stroke="#67e8f9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5" cy="12" r="2.5" fill="#67e8f9"/><circle cx="19" cy="12" r="2.5" fill="#67e8f9"/></svg>
+            </div>
+            <h4>Kafka Streaming</h4>
+            <p>Millions of events per second, zero message loss, real-time delivery</p>
+            <span class="pipeTech">Event Streaming</span>
+          </div>
+        </div>
+        <div class="pipeStage stage-vast">
+          <div class="pipeBox" style="border-color:rgba(245,158,11,.30);background:rgba(245,158,11,.07)">
+            <div class="pipeIcon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke="#fbbf24" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 22V12M3 7l9 5 9-5" stroke="#fbbf24" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <h4>VAST Data Platform</h4>
+            <p>Universal NVMe flash fabric — structured, vector, unstructured, columnar — one namespace</p>
+            <span class="pipeTech">⚡ Core Engine</span>
+          </div>
+        </div>
+        <div class="pipeStage stage-ai">
+          <div class="pipeBox">
+            <div class="pipeIcon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" fill="#c4b5fd"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M15 15l1.4 1.4M5.6 18.4l1.4-1.4M15 9l1.4-1.4" stroke="#c4b5fd" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h4>AI Inference</h4>
+            <p>Fraud detection, credit scoring, risk models — real-time, sub-5ms</p>
+            <span class="pipeTech">Real-Time AI</span>
+          </div>
+        </div>
+        <div class="pipeStage stage-agent">
+          <div class="pipeBox">
+            <div class="pipeIcon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="#86efac" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="#86efac" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="#86efac" stroke-width="1.6"/><path d="M17 13v8M13 17h8" stroke="#86efac" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <h4>AI Agents &amp; Vector</h4>
+            <p>RAG pipelines, LLM agents, vector similarity search at millisecond speed</p>
+            <span class="pipeTech">Vector &amp; Agents</span>
+          </div>
+        </div>
+        <div class="pipeStage stage-fraud">
+          <div class="pipeBox">
+            <div class="pipeIcon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#fdba74" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#fdba74" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h4>BI &amp; Compliance</h4>
+            <p>Sub-second dashboards, regulatory reporting, audit trails — all live</p>
+            <span class="pipeTech">Analytics &amp; BI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VAST platform layers -->
+      <p style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.36);margin:0 0 16px">VAST Data Platform Capabilities — Delivered in One System</p>
+      <div class="gpuStack">
+        <div class="stackLayer">
+          <span class="stackIcon">🗃️</span>
+          <h4>Columnar Database Engine</h4>
+          <p>Analytics run directly on storage — no separate compute tier, no data movement, sub-second BI queries on petabytes</p>
+        </div>
+        <div class="stackLayer">
+          <span class="stackIcon">🔮</span>
+          <h4>Native Vector Database</h4>
+          <p>Millisecond similarity search at scale — RAG pipelines, AI agents, and semantic search without a separate vector DB</p>
+        </div>
+        <div class="stackLayer">
+          <span class="stackIcon">⚡</span>
+          <h4>NVMe-oF Flash Fabric</h4>
+          <p>Sub-millisecond latency across all workloads — AI inference, streaming, archival, all sharing the same flash tier</p>
+        </div>
+        <div class="stackLayer">
+          <span class="stackIcon">🌐</span>
+          <h4>Universal Namespace</h4>
+          <p>S3, NFS, SMB, HDFS, and direct API — every protocol, one namespace, no data copies between systems</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ VECTOR & AI AGENTS -->
+<div class="container">
+  <div class="vectorSection">
+    <div class="vectorCard">
+      <div class="vectorInner">
+        <div class="vectorLeft">
+          <p class="kicker" style="color:rgba(196,181,253,.65)">AI Agents &amp; Vector Search</p>
+          <h2>The AI Agent Layer Your Organisation<br>Can't Run Without <em>VAST</em></h2>
+          <p>Every modern AI agent, RAG pipeline, and LLM deployment depends on a vector database that can retrieve semantically relevant context in milliseconds. When that vector index lives on fragmented or slow storage, your AI applications fail in real time — not in batch, but in the middle of a customer interaction or a fraud decision.</p>
+          <p style="font-size:14px;color:rgba(255,255,255,.60);line-height:1.72;margin:0 0 24px">VAST Data's built-in vector database runs on the same NVMe fabric as your structured and unstructured data — eliminating the separate vector DB tier that most organisations bolt on as yet another fragmented system.</p>
+          <div class="useCase">
+            <span class="ucIcon">🛡️</span>
+            <div>
+              <h4>Real-Time Fraud Intelligence Agent</h4>
+              <p>Vector similarity search across billions of historical transaction patterns — agent retrieves relevant fraud context in &lt;8ms and scores the live transaction before settlement</p>
+            </div>
+          </div>
+          <div class="useCase">
+            <span class="ucIcon">💳</span>
+            <div>
+              <h4>AI Credit Decisioning Engine</h4>
+              <p>RAG pipeline pulls the most contextually relevant customer behaviour signals from VAST's vector index — live credit decisions in under 50ms with full explainability</p>
+            </div>
+          </div>
+          <div class="useCase">
+            <span class="ucIcon">📋</span>
+            <div>
+              <h4>Regulatory Compliance Agent</h4>
+              <p>AI agent queries VAST's vector store for similar past regulatory cases and policies — automated SBP/SECP compliance reporting in seconds, not 3-day manual cycles</p>
+            </div>
+          </div>
+        </div>
+        <div class="vectorStats">
+          <div class="vvStat">
+            <strong>&lt;8ms</strong>
+            <span>Vector Similarity Search on Billion-Scale Index</span>
+          </div>
+          <div class="vvStat">
+            <strong>1 tier</strong>
+            <span>Replaces 4+ Separate Data Systems</span>
+          </div>
+          <div class="vvStat">
+            <strong>Native</strong>
+            <span>Built-in Vector DB — No Pinecone, Weaviate, or Separate System Required</span>
+          </div>
+          <div class="vvStat">
+            <strong>Zero</strong>
+            <span>Separate Vector DB Tier — AI &amp; Storage Co-Located</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</div>
+
+
+<!-- ══════════════ NVIDIA × VAST DATA AI INFERENCE SCENARIO -->
+<div class="container">
+  <div class="nvSection" id="nvidia">
+    <div class="nvCard">
+
+      <!-- Header -->
+      <div class="nvBadge"><i></i> NVIDIA × VAST Data · GPU-Accelerated AI Inference</div>
+      <h2 class="nvTitle">How AI Inference Works —<br><em>With & Without NVIDIA</em> + VAST Data</h2>
+      <p class="nvSub">Most organisations deploy VAST Data and immediately eliminate storage latency. But the true leap — 60,000× faster inference, sub-millisecond model scoring, and 1,000+ concurrent model deployments — only happens when NVIDIA GPU acceleration is layered directly on top of VAST's NVMe fabric. This is the complete picture.</p>
+
+      <!-- ── GPU-Accelerated Inference Flow ── -->
+      <p style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:rgba(163,217,0,.55);margin:0 0 20px">GPU Inference Pipeline — End-to-End Data Flow</p>
+      <div class="nvFlow">
+        <div class="nvFlowStep nv-vast">
+          <div class="nvFlowBox highlight">
+            <div class="nvFlowIcon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke="#fbbf24" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 22V12M3 7l9 5 9-5" stroke="#fbbf24" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <h4>VAST NVMe Fabric</h4>
+            <p>Live data — zero batch windows, &lt;1ms read latency</p>
+            <span class="nvFlowTag">⚡ VAST Platform</span>
+          </div>
+        </div>
+        <div class="nvFlowStep nv-transfer">
+          <div class="nvFlowBox">
+            <div class="nvFlowIcon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4l8 8-8 8" stroke="#67e8f9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h4>PCIe / NVLink Transfer</h4>
+            <p>Direct memory path to GPU — no CPU bottleneck</p>
+            <span class="nvFlowTag">GPU Direct</span>
+          </div>
+        </div>
+        <div class="nvFlowStep nv-rapids">
+          <div class="nvFlowBox">
+            <div class="nvFlowIcon">🚀</div>
+            <h4>NVIDIA RAPIDS cuDF</h4>
+            <p>GPU-native data preprocessing — 50× faster than pandas</p>
+            <span class="nvFlowTag">RAPIDS cuDF</span>
+          </div>
+        </div>
+        <div class="nvFlowStep nv-gpu">
+          <div class="nvFlowBox highlight">
+            <div class="nvFlowIcon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="12" rx="3" stroke="#fff" stroke-width="1.6"/><circle cx="8" cy="12" r="2" fill="#76b900"/><circle cx="12" cy="12" r="2" fill="#76b900"/><circle cx="16" cy="12" r="2" fill="#76b900"/></svg>
+            </div>
+            <h4>A100 / H100 GPU</h4>
+            <p>6912–16384 CUDA cores + 80GB HBM3 memory</p>
+            <span class="nvFlowTag">🟢 NVIDIA GPU</span>
+          </div>
+        </div>
+        <div class="nvFlowStep nv-triton">
+          <div class="nvFlowBox">
+            <div class="nvFlowIcon">⚙️</div>
+            <h4>Triton Inference Server</h4>
+            <p>1,000+ model instances, dynamic batching, multi-framework</p>
+            <span class="nvFlowTag">Triton IS</span>
+          </div>
+        </div>
+        <div class="nvFlowStep nv-result">
+          <div class="nvFlowBox">
+            <div class="nvFlowIcon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#86efac" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#86efac" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h4>Real-Time AI Result</h4>
+            <p>Fraud decision, credit score, or agent response delivered</p>
+            <span class="nvFlowTag">✓ &lt;1ms End-to-End</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CPU vs GPU Comparison ── -->
+      <p style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:rgba(163,217,0,.55);margin:0 0 20px">Inference Architecture — Without NVIDIA vs. With NVIDIA + VAST Data</p>
+      <div class="nvCompare">
+        <div class="nvCompareBox cpu">
+          <p class="nvCompareLabel red">Without NVIDIA — CPU-Only Inference</p>
+          <p class="nvCompareTitle red">VAST Data + CPU Processing</p>
+          <p class="nvCompareDesc">VAST eliminates storage latency — data arrives in under 1ms. But CPU cores process inference sequentially. A fraud model scoring a transaction must execute thousands of matrix multiplications one thread at a time. Even with fast storage, the compute layer becomes the new bottleneck at scale.</p>
+          <ul class="nvSpecList">
+            <li><span class="dot" style="background:#ef4444"></span>Fraud inference latency: 80–200ms per transaction on CPU</li>
+            <li><span class="dot" style="background:#ef4444"></span>Model throughput: ~500–2,000 inferences/sec per CPU core</li>
+            <li><span class="dot" style="background:#ef4444"></span>Large model loading: 8–40s (GPT-class models on CPU)</li>
+            <li><span class="dot" style="background:#ef4444"></span>Concurrent models: limited to available CPU threads</li>
+            <li><span class="dot" style="background:#ef4444"></span>Training iteration: hours per epoch on CPU clusters</li>
+            <li><span class="dot" style="background:#ef4444"></span>Scaling cost: linear — more CPU servers per inference job</li>
+          </ul>
+        </div>
+
+        <div class="nvVsArrow">
+          <span class="nvVsText">NVIDIA</span>
+          <div class="nvVsCircle">→</div>
+          <span class="nvVsText">GPU</span>
+        </div>
+
+        <div class="nvCompareBox gpu">
+          <p class="nvCompareLabel green">With NVIDIA + VAST Data — Full GPU Inference Stack</p>
+          <p class="nvCompareTitle green">NVMe Fabric → GPU Direct → CUDA Inference</p>
+          <p class="nvCompareDesc">VAST feeds data directly into GPU memory via NVLink — bypassing the CPU entirely. NVIDIA RAPIDS cuDF preprocesses on-GPU. Triton Inference Server manages thousands of model instances with dynamic batching. CUDA's 6,912–16,384 parallel cores execute matrix multiplications simultaneously — turning inference from sequential to massively parallel.</p>
+          <ul class="nvSpecList">
+            <li><span class="dot" style="background:#76b900"></span>Fraud inference latency: &lt;0.8ms per transaction end-to-end</li>
+            <li><span class="dot" style="background:#76b900"></span>Model throughput: 250,000+ inferences/sec per A100 GPU</li>
+            <li><span class="dot" style="background:#76b900"></span>Large model loading: &lt;200ms (GPU HBM3 memory bandwidth)</li>
+            <li><span class="dot" style="background:#76b900"></span>Concurrent models: 1,000+ via Triton model instances</li>
+            <li><span class="dot" style="background:#76b900"></span>Training iteration: minutes per epoch vs hours</li>
+            <li><span class="dot" style="background:#76b900"></span>Scaling: add GPU nodes — compute scales independently of VAST storage</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Latency Bars ── -->
+      <p style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:rgba(163,217,0,.55);margin:0 0 20px">Inference Latency — Same Model, Same VAST Data, CPU vs GPU</p>
+      <div class="nvLatRows">
+        <div class="nvLatRow">
+          <span class="nvLatLabel">Fraud Scoring (CPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill cpu-fill">CPU sequential matrix ops — 180ms per transaction</div></div>
+          <span class="nvLatTime red">180ms</span>
+        </div>
+        <div class="nvLatRow">
+          <span class="nvLatLabel">Fraud Scoring (GPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill gpu-fill" style="width:0.44%">NVIDIA A100</div></div>
+          <span class="nvLatTime nv">&lt;0.8ms</span>
+        </div>
+        <div class="nvLatRow">
+          <span class="nvLatLabel">Credit Risk Model (CPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill cpu-fill">CPU inference pipeline — 420ms decision latency</div></div>
+          <span class="nvLatTime red">420ms</span>
+        </div>
+        <div class="nvLatRow">
+          <span class="nvLatLabel">Credit Risk Model (GPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill gpu-fill" style="width:0.24%">NVIDIA A100</div></div>
+          <span class="nvLatTime nv">1.0ms</span>
+        </div>
+        <div class="nvLatRow">
+          <span class="nvLatLabel">LLM RAG Response (CPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill cpu-fill">CPU LLM inference — 8.4 second end-to-end response</div></div>
+          <span class="nvLatTime red">8.4s</span>
+        </div>
+        <div class="nvLatRow">
+          <span class="nvLatLabel">LLM RAG Response (GPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill gpu-fill" style="width:1.4%">NVIDIA H100</div></div>
+          <span class="nvLatTime nv">70ms</span>
+        </div>
+        <div class="nvLatRow">
+          <span class="nvLatLabel">Model Training Epoch (CPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill cpu-fill">CPU cluster — 6.5 hours per training epoch</div></div>
+          <span class="nvLatTime red">6.5 hrs</span>
+        </div>
+        <div class="nvLatRow">
+          <span class="nvLatLabel">Model Training Epoch (GPU)</span>
+          <div class="nvLatBar"><div class="nvLatFill gpu-fill" style="width:0.5%">NVIDIA A100 NVLink</div></div>
+          <span class="nvLatTime nv">4 min</span>
+        </div>
+      </div>
+      <div class="nvSpeedBadge" style="margin-bottom:44px">
+        <strong>60,000×</strong> throughput increase — same VAST data, NVIDIA GPU inference vs CPU baseline
+      </div>
+
+      <!-- ── NVIDIA Stack Layers ── -->
+      <p style="font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:rgba(163,217,0,.55);margin:0 0 18px">NVIDIA AI Stack — Layered on VAST Data NVMe Fabric</p>
+      <div class="nvStack">
+        <div class="nvLayer">
+          <span class="nvLayerIcon">🟢</span>
+          <h4>A100 / H100 GPU Compute</h4>
+          <p>6,912–16,384 CUDA cores. 80GB HBM3. 2TB/s memory bandwidth. Handles millions of parallel matrix operations for inference and training simultaneously.</p>
+        </div>
+        <div class="nvLayer">
+          <span class="nvLayerIcon">🚀</span>
+          <h4>NVIDIA RAPIDS cuDF / cuML</h4>
+          <p>GPU-native DataFrame and ML library. Data preprocessing, feature engineering, and model training run entirely on GPU — 50× faster than CPU pandas pipelines on the same VAST dataset.</p>
+        </div>
+        <div class="nvLayer">
+          <span class="nvLayerIcon">⚙️</span>
+          <h4>Triton Inference Server</h4>
+          <p>NVIDIA's production inference serving platform. Manages 1,000+ concurrent model instances with dynamic batching, auto-scaling, and multi-framework support (TensorRT, PyTorch, ONNX).</p>
+        </div>
+        <div class="nvLayer">
+          <span class="nvLayerIcon">🔗</span>
+          <h4>NVLink + GPUDirect Storage</h4>
+          <p>NVLink interconnects GPUs at 600GB/s. GPUDirect Storage reads VAST NVMe data directly into GPU memory — eliminating the CPU and RAM copy step entirely for maximum throughput.</p>
+        </div>
+      </div>
+
+      <!-- ── KPI Stats Row ── -->
+      <div class="nvKpiRow">
+        <div class="nvKpi">
+          <strong>60,000×</strong>
+          <span>Inference Throughput vs CPU-Only Baseline</span>
+        </div>
+        <div class="nvKpi">
+          <strong>&lt;0.8ms</strong>
+          <span>End-to-End Fraud Inference — VAST + A100 GPU</span>
+        </div>
+        <div class="nvKpi">
+          <strong>1,000+</strong>
+          <span>Concurrent Model Instances via Triton Server</span>
+        </div>
+        <div class="nvKpi">
+          <strong>97%</strong>
+          <span>GPU Utilisation — VAST Direct Storage Feed</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</div>
+
+<!-- ══════════════ OUTCOMES -->
+<div class="container">
+  <div class="outcomesSection">
+    <p class="kicker">What You Gain</p>
+    <h2 class="h2" style="margin-bottom:8px">From <em>Batch Blindness</em> to Live Intelligence</h2>
+    <p class="subtext" style="max-width:68ch">Every outcome below represents a measurable operational shift — from infrastructure that forces AI to work on yesterday's data, to a platform where every workload runs on live reality.</p>
+
+    <div class="outcomesCard" style="margin-top:32px">
+      <div class="outcomesInner">
+        <div class="outLeft">
+          <h2>The Organisation You Become<br>With <em>VAST Data</em></h2>
+          <p>Your teams stop waiting for overnight exports. Your fraud models stop chasing settled transactions. Your AI agents stop timing out on slow vector queries. VAST Data makes real-time intelligence the default — not the exception.</p>
+          <div class="outcomeList">
+            <div class="outcomeItem">
+              <div class="outIcon" style="background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.26)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="#fde68a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <h4>AI Fraud Interception — Before Funds Move</h4>
+                <p>Every transaction is scored by your fraud model in under 5ms — inside the authorisation window, before settlement is approved. Retroactive fraud reporting becomes a thing of the past.</p>
+              </div>
+            </div>
+            <div class="outcomeItem">
+              <div class="outIcon" style="background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.26)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="#c4b5fd" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <h4>AI Agents &amp; RAG Pipelines — Always Sub-Second</h4>
+                <p>Vector retrieval latency drops from 800ms–2s to under 10ms. Every AI agent interaction feels instantaneous — because the data layer is no longer the bottleneck in your AI stack.</p>
+              </div>
+            </div>
+            <div class="outcomeItem">
+              <div class="outIcon" style="background:rgba(6,182,212,.14);border:1px solid rgba(6,182,212,.26)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="#67e8f9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <h4>Infrastructure Complexity — Eliminated</h4>
+                <p>Five disconnected storage systems consolidate into one VAST namespace. ETL pipelines, nightly export jobs, and cross-tier synchronisation overhead disappear — along with the teams and cost that maintained them.</p>
+              </div>
+            </div>
+            <div class="outcomeItem">
+              <div class="outIcon" style="background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.26)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="#86efac" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <h4>BI &amp; Compliance — Automated, Sub-Second</h4>
+                <p>Regulatory reports that took 3-day manual cycles run as automated sub-60-second queries against the live columnar store. BI dashboards refresh in real time — not at the end of a batch window.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="outRight">
+          <div class="outStat">
+            <strong>Real-Time</strong>
+            <span>Data Freshness — Replaces 24hr Batch Cycles</span>
+          </div>
+          <div class="outStat" style="border-color:rgba(139,92,246,.22);background:rgba(139,92,246,.07)">
+            <strong style="color:#c4b5fd">&lt;10ms</strong>
+            <span>Vector Search — AI Agent Retrieval Latency</span>
+          </div>
+          <div class="outStat" style="border-color:rgba(34,197,94,.22);background:rgba(34,197,94,.07)">
+            <strong style="color:#86efac">60%</strong>
+            <span>Infrastructure Cost Reduction vs. Legacy Stack</span>
+          </div>
+          <div class="outQuote">
+            <p>"We went from a fragmented infrastructure where AI was always a day behind, to a world where every decision our models make is based on what is happening right now. Fraud interception, credit decisions, compliance reporting — it all runs on live data. VAST Data changed what was possible for us."</p>
+            <span class="src">— CTO, Tier-1 Financial Institution (Reference Available)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech stack strip -->
+    <div class="techStrip">
+      <h4>Complete Technology Stack — Delivered by IES Engineering</h4>
+      <div class="chipRow">
+        <span class="chip vast">VAST Data Platform</span>
+        <span class="chip vast">VAST DB Columnar Engine</span>
+        <span class="chip vast">VAST Vector Database</span>
+        <span class="chip vast">NVMe over Fabrics</span>
+        <span class="chip vast">VAST Universal Namespace</span>
+        <span class="chip cyan">Apache Kafka</span>
+        <span class="chip cyan">Kafka-Native Event Bus</span>
+        <span class="chip purple">AI Inference Layer</span>
+        <span class="chip purple">RAG Pipeline Integration</span>
+        <span class="chip purple">LLM Agent Connectors</span>
+        <span class="chip">Cloudera CDP</span>
+        <span class="chip">Apache Spark</span>
+        <span class="chip">MLflow Model Registry</span>
+        <span class="chip">Kubernetes GPU Operator</span>
+        <span class="chip" style="background:rgba(118,185,0,.11);border-color:rgba(118,185,0,.26);color:#a3d900">NVIDIA A100 / H100 GPUs</span><span class="chip" style="background:rgba(118,185,0,.11);border-color:rgba(118,185,0,.26);color:#a3d900">RAPIDS cuDF / cuML</span><span class="chip" style="background:rgba(118,185,0,.11);border-color:rgba(118,185,0,.26);color:#a3d900">Triton Inference Server</span><span class="chip" style="background:rgba(118,185,0,.11);border-color:rgba(118,185,0,.26);color:#a3d900">NVLink + GPUDirect</span><span class="chip">HDFS-Compatible Migration</span>
+        <span class="chip">S3 · NFS · SMB Protocol Support</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CTA -->
+  <div class="ctaSection" id="cta">
+    <div class="ctaCard">
+      <p class="ctaEye">Ready to Eliminate the Batch Window?</p>
+      <h2>Your AI Deserves to Run on<br><em>Live Data</em></h2>
+      <p>IES Engineering is VAST Data's authorised partner in Pakistan — delivering end-to-end storage transformation from architecture design through deployment and go-live. We have already done this for tier-1 banking infrastructure. Let us assess your current environment and show you exactly what your AI stack could look like with VAST Data at its core.</p>
+      <div class="ctaBtns">
+        <a href="mailto:hello@iespakistan.com" class="btn primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.29 6.29l.92-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Request a VAST Data Assessment
+        </a>
+        <a href="#problem" class="btn">← Review the Problem</a>
+        <a href="#solution" class="btn">Back to Solution ↑</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footGrid">
+      <div>
+        <div class="brand brandFooter">
+          <div class="logoMark" aria-hidden="true"></div>
+          <div class="brandTitle">
+            <div class="name">IES Engineering</div>
+            <div class="sub">Pvt. Ltd.</div>
+          </div>
+        </div>
+        <div class="small">© <span id="yr"></span> IES Engineering (Private) Limited. All rights reserved.</div>
+        <div class="small">Enterprise ICT Infrastructure • Data Platforms • ELV &amp; Smart Systems</div>
+      </div>
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Company</div>
+        <a href="index.html#leadership">Leadership</a>
+        <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Solutions</div>
+        <a href="index.html#solutions">ICT Infrastructure</a>
+        <a href="index.html#solutions">Data Platforms &amp; Analytics</a>
+        <a href="index.html#solutions">ELV &amp; Smart Buildings</a>
+        <a href="partners.html">Partners</a>
+      </div>
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Contact</div>
+        <a href="mailto:hello@iespakistan.com">hello@iespakistan.com</a>
+        <a href="tel:+924232301563">+92 42 3 230 1563</a>
+        <a href="#">50-N Gurumangat Road,<br>Gulberg II — Lahore</a>
+      </div>
+    </div>
+  </div>
+  <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</footer>
+
+</body>
+</html>

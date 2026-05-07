@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Platforms & Global Namespace Storage | IES Engineering (Pvt) Ltd.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy-950:#071327;
+      --navy-900:#0b1f3a;
+      --navy-850:#102b52;
+      --navy-800:#14335e;
+      --ink:#0a1220;
+      --white:#ffffff;
+      --orange-500:#f6a100;
+      --orange-600:#e28f00;
+      --slate-50:#f7f9fd;
+      --slate-100:#eef3fb;
+      --slate-200:#dfe8f6;
+      --slate-300:#c9d6ee;
+      --slate-500:#6e86a8;
+      --radius-2xl:22px;
+      --radius-xl:18px;
+      --radius-lg:14px;
+      --radius-md:12px;
+      --shadow-lg: 0 20px 55px rgba(0,0,0,.35);
+      --shadow-md: 0 14px 35px rgba(0,0,0,.25);
+      --shadow-soft: 0 16px 35px rgba(10,18,32,.10);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(1200px 600px at 15% 0%, rgba(246,161,0,.10), transparent 55%),
+        radial-gradient(1000px 700px at 85% 15%, rgba(56,189,248,.08), transparent 55%),
+        linear-gradient(180deg, var(--navy-950), var(--navy-900));
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:100%;padding:0 48px}
+    @media (max-width:900px){.container{padding:0 22px}}
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background: linear-gradient(180deg, rgba(7,19,39,.92), rgba(7,19,39,.62));
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 0; gap:16px;
+    }
+    .brand{display:flex; align-items:center; gap:12px; min-width:260px;}
+    .logoMark{
+      width:46px; height:34px;
+      border:3px solid var(--orange-500);
+      border-right-color: transparent;
+      border-radius:8px;
+      box-shadow: 0 10px 22px rgba(246,161,0,.10);
+    }
+    .brandTitle{display:flex; flex-direction:column; line-height:1.1;}
+    .brandTitle .name{
+      font-weight:800; text-transform:uppercase; letter-spacing:.6px; font-size:18px;
+    }
+    .brandTitle .sub{
+      font-weight:700; font-size:12px; color:rgba(255,255,255,.70);
+    }
+    .menu{
+      display:flex; align-items:center; gap:22px;
+      color:rgba(255,255,255,.82); font-weight:600; white-space:nowrap;
+    }
+    .menu a{padding:10px 10px; border-radius:10px}
+    .menu a:hover{background: rgba(255,255,255,.06); color:#fff}
+    .menu .menuTrigger.active,
+    .menu > a.active{background:rgba(255,255,255,.06);color:#fff}
+
+    /* SOLUTIONS DROPDOWN */
+    .menu .menuItem{
+      position:relative;
+      display:flex;
+      align-items:center;
+    }
+    .menu .menuTrigger{
+      position:relative;
+      z-index:82;
+      padding:10px 10px;
+      border-radius:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+    }
+    .menu .menuTrigger:hover{
+      background: rgba(255,255,255,.06);
+      color:#fff;
+    }
+    .menu .menuCaret{
+      font-size:10px;
+      opacity:.82;
+      transform: translateY(1px);
+    }
+    .megaMenu{
+      position:absolute;
+      top:calc(100% + 14px);
+      left:50%;
+      transform:translateX(-50%) translateY(8px);
+      width:760px;
+      max-width:calc(100vw - 120px);
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(700px 240px at 15% 0%, rgba(246,161,0,.08), transparent 55%),
+        linear-gradient(180deg, rgba(7,19,39,.98), rgba(11,31,58,.98));
+      box-shadow: 0 24px 60px rgba(0,0,0,.42);
+      backdrop-filter: blur(14px);
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+      z-index:80;
+    }
+    .megaMenu::before{
+      content:"";
+      position:absolute;
+      top:-18px;
+      left:0;
+      right:0;
+      height:18px;
+      background:transparent;
+    }
+    .megaMenu::after{
+      content:"";
+      position:absolute;
+      top:-8px;
+      left:50%;
+      width:14px;
+      height:14px;
+      transform:translateX(-50%) rotate(45deg);
+      background: rgba(7,19,39,.98);
+      border-left:1px solid rgba(255,255,255,.10);
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .menu .menuItem:hover .megaMenu,
+    .menu .menuItem:focus-within .megaMenu,
+    .megaMenu:hover{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+    .megaHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+      padding:2px 4px 10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .megaTitle{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.86);
+    }
+    .megaHint{
+      font-size:11px;
+      font-weight:800;
+      color:rgba(255,255,255,.52);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .megaGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    .megaCard{
+      display:block;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      padding:14px;
+      min-height:126px;
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .megaCard::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(240px 90px at 10% 0%, rgba(246,161,0,.08), transparent 55%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .megaCard > *{ position:relative; z-index:1; }
+    .megaCard:hover{
+      background: rgba(255,255,255,.07);
+      border-color: rgba(246,161,0,.34);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(0,0,0,.22);
+    }
+    .megaIcon{
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      background: rgba(246,161,0,.14);
+      border:1px solid rgba(246,161,0,.28);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color: var(--orange-500);
+      font-size:11px;
+      margin-bottom:8px;
+      letter-spacing:.03em;
+      box-shadow: 0 10px 22px rgba(246,161,0,.10);
+    }
+    .megaCard h4{
+      margin:0 0 6px;
+      font-size:13px;
+      line-height:1.32;
+      letter-spacing:-.01em;
+      color:#fff;
+    }
+    .megaCard p{
+      margin:0;
+      color:rgba(255,255,255,.70);
+      font-size:12px;
+      line-height:1.45;
+    }
+    .megaCard .miniLink{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:9px;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.03em;
+      color:rgba(246,161,0,.96);
+      text-transform:uppercase;
+    }
+    @media (max-width: 980px){
+      .menu .menuItem{display:none;}
+    }
+
+    .actions{display:flex; gap:10px; min-width:260px; justify-content:flex-end;}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 16px; border-radius:14px; font-weight:800; letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.06);
+      color:#fff; cursor:pointer;
+      transition:transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn:hover{background: rgba(255,255,255,.10)}
+    .btn.primary{
+      color:#081426; border-color: rgba(246,161,0,.60);
+      background: linear-gradient(180deg, var(--orange-500), var(--orange-600));
+      box-shadow: 0 18px 40px rgba(246,161,0,.22), 0 0 0 1px rgba(246,161,0,.22) inset;
+    }
+    .btn:hover{transform:translateY(-1px)}
+
+    .heroWrap{padding:18px 0 0}
+    .heroCard{
+      position:relative; overflow:hidden; border-radius:var(--radius-2xl);
+      border:1px solid rgba(255,255,255,.10); box-shadow:var(--shadow-lg);
+      background:
+        linear-gradient(90deg, rgba(7,19,39,.90) 0%, rgba(7,19,39,.64) 48%, rgba(7,19,39,.25) 100%),
+        radial-gradient(850px 520px at 80% 22%, rgba(246,161,0,.12), transparent 58%),
+        radial-gradient(1000px 620px at 15% 10%, rgba(56,189,248,.10), transparent 62%),
+        url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    }
+    .heroInner{
+      position:relative; z-index:2;
+      min-height:560px; display:grid; grid-template-columns: 1.1fr .9fr; gap:18px;
+      padding:56px 50px 26px;
+      align-items:end;
+    }
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);
+      color:rgba(255,255,255,.88); font-weight:900; font-size:12px; letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .eyebrow i{
+      width:8px; height:8px; border-radius:50%; background: var(--orange-500);
+      box-shadow: 0 0 0 3px rgba(246,161,0,.18); display:inline-block;
+    }
+    .heroText h1{
+      margin:16px 0 14px; font-size:54px; line-height:1.02; letter-spacing:-1.1px;
+      max-width:12ch;
+    }
+    .heroText p{
+      margin:0 0 20px; color:rgba(255,255,255,.82); font-size:16px; line-height:1.72;
+      max-width:68ch;
+    }
+    .heroBtns{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;}
+    .heroHighlights{
+      display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-top:22px; max-width:680px;
+    }
+    .highlight{
+      border-radius:16px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.05);
+      padding:14px;
+    }
+    .highlight strong{display:block; font-size:15px}
+    .highlight span{display:block; font-size:12px; line-height:1.5; color:rgba(255,255,255,.72); margin-top:5px}
+    .heroPanel{
+      border-radius: var(--radius-2xl);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(7,19,39,.58);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-md);
+      padding:20px;
+      max-width:440px;
+      justify-self:end;
+    }
+    .heroPanel h3{margin:0 0 12px; font-size:15px; text-transform:uppercase; letter-spacing:.04em}
+    .heroPanel p{margin:0; font-size:13px; line-height:1.65; color:rgba(255,255,255,.78)}
+    .heroPanel .stack{margin-top:14px; display:grid; gap:10px}
+    .heroPanel .pill{
+      padding:10px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05); font-size:12px; font-weight:800; color:rgba(255,255,255,.88);
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .heroPanel .pill i{
+      width:8px;height:8px;border-radius:50%;background:var(--orange-500);
+      box-shadow: 0 0 0 3px rgba(246,161,0,.18); display:inline-block;
+    }
+
+    .section{padding:68px 0}
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:18px; margin-bottom:20px;
+    }
+    .sectionHead .kicker{
+      font-weight:900; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.78); font-size:12px;
+    }
+    .h2{
+      margin:0 0 12px; font-size:32px; line-height:1.12; letter-spacing:-.04em;
+    }
+    .subtext{
+      margin:0; color:rgba(255,255,255,.74); max-width:74ch; line-height:1.65; font-size:14px;
+    }
+
+    .grid-3{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .grid-4{display:grid; grid-template-columns: repeat(4, 1fr); gap:14px}
+    .card{
+      border-radius:var(--radius-xl); border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-md); padding:18px;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .card:hover{transform:translateY(-2px); border-color:rgba(246,161,0,.30)}
+    .iconBadge{
+      width:42px; height:42px; border-radius:12px;
+      display:grid; place-items:center; font-weight:900; color:var(--orange-500);
+      background: rgba(246,161,0,.12); border:1px solid rgba(246,161,0,.28);
+      box-shadow: 0 10px 22px rgba(246,161,0,.10);
+      margin-bottom:12px; font-size:12px;
+    }
+    .card h3{margin:0 0 8px; font-size:16px}
+    .card p{margin:0; color:rgba(255,255,255,.74); font-size:13px; line-height:1.6}
+
+    .lightSection{
+      background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.90));
+      color:var(--ink);
+      border-top:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .lightSection .kicker{color:#0b1f3a}
+    .lightSection .h2{color:#0b1f3a}
+    .lightSection .subtext{color:#49617f}
+    .lightCard{
+      border-radius:var(--radius-lg); background:#fff; box-shadow:var(--shadow-soft);
+      border:1px solid rgba(10,18,32,.10); padding:18px;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .lightCard:hover{transform:translateY(-2px); border-color:rgba(246,161,0,.35)}
+    .lightCard .iconBadge{background: rgba(246,161,0,.12); border-color: rgba(246,161,0,.25)}
+    .lightCard h3{margin:0 0 8px; font-size:16px; color:#0b1f3a}
+    .lightCard p{margin:0; color:#4a607d; font-size:13px; line-height:1.58}
+
+    .split{
+      display:grid; grid-template-columns: 1.05fr .95fr; gap:16px; align-items:stretch;
+    }
+    .panel{
+      border-radius:var(--radius-2xl); border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-md); padding:22px;
+    }
+    .panel h3{margin:0 0 12px; font-size:18px}
+    .panel p{margin:0; color:rgba(255,255,255,.76); line-height:1.7; font-size:14px}
+    .tickList{margin:16px 0 0; padding:0; list-style:none; display:grid; gap:12px}
+    .tickList li{
+      display:grid; grid-template-columns: 30px 1fr; gap:12px; align-items:start;
+    }
+    .tick{
+      width:28px; height:28px; border-radius:10px; display:grid; place-items:center;
+      background: rgba(246,161,0,.12); border:1px solid rgba(246,161,0,.30); color:var(--orange-500);
+      font-weight:900; box-shadow: 0 10px 22px rgba(246,161,0,.10);
+    }
+    .tickList strong{display:block; font-size:14px}
+    .tickList span{display:block; margin-top:4px; color:rgba(255,255,255,.72); font-size:13px; line-height:1.55}
+
+    .architecture{
+      display:grid; grid-template-columns: repeat(5, 1fr); gap:12px; margin-top:14px;
+    }
+    .stage{
+      position:relative; border-radius:20px; border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-md); padding:18px; min-height:158px;
+    }
+    .stage .num{
+      width:32px; height:32px; border-radius:11px; display:grid; place-items:center;
+      background: rgba(246,161,0,.12); border:1px solid rgba(246,161,0,.30); color:var(--orange-500);
+      font-weight:900; margin-bottom:12px;
+    }
+    .stage strong{display:block; font-size:14px}
+    .stage span{display:block; margin-top:6px; color:rgba(255,255,255,.72); font-size:12px; line-height:1.55}
+
+    .caseStrip{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-top:14px;
+    }
+    .miniCase{
+      border-radius:18px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04);
+      box-shadow:var(--shadow-md); padding:18px;
+    }
+    .miniCase h4{margin:0 0 8px; font-size:15px}
+    .miniCase p{margin:0; color:rgba(255,255,255,.72); font-size:13px; line-height:1.6}
+
+    .ctaBox{
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(850px 300px at 20% 0%, rgba(246,161,0,.10), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow-lg);
+      padding:28px;
+      display:grid; grid-template-columns: 1fr auto; gap:18px; align-items:center;
+    }
+    .ctaBox h3{margin:0 0 8px; font-size:28px; letter-spacing:-.03em}
+    .ctaBox p{margin:0; color:rgba(255,255,255,.76); line-height:1.65}
+
+    footer{
+      margin-top:30px; padding:30px 0 44px; border-top:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.70);
+    }
+    .footGrid{display:grid; grid-template-columns: 1.3fr 1fr 1fr; gap:16px}
+    .footLinks a{display:block; padding:7px 0; color:rgba(255,255,255,.72)}
+    .small{font-size:12px; color:rgba(255,255,255,.62); margin-top:10px; line-height:1.6}
+
+    @media (max-width:1100px){
+      .actions{min-width:auto}
+      .heroInner{grid-template-columns:1fr; min-height:auto; padding:40px 22px 24px}
+      .heroPanel{justify-self:start; max-width:none}
+      .split{grid-template-columns:1fr}
+      .grid-4{grid-template-columns: repeat(2, 1fr)}
+      .grid-3,.architecture,.caseStrip,.footGrid{grid-template-columns:1fr}
+      .ctaBox{grid-template-columns:1fr}
+    }
+    @media (max-width:680px){
+      .heroText h1{font-size:38px}
+      .heroHighlights{grid-template-columns:1fr}
+      .grid-4{grid-template-columns:1fr}
+    }
+  </style>
+<style>
+/* ===== FOOTER REFINEMENT (Synced with index) ===== */
+footer{
+  margin-top:30px;
+  padding:44px 0 54px;
+  border-top:1px solid rgba(255,255,255,.09);
+  color:rgba(255,255,255,.70);
+}
+.footGrid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr 1fr;
+  gap:26px;
+}
+.footLinks a{
+  display:block;
+  padding:7px 0;
+  color:rgba(255,255,255,.72);
+  opacity:.85;
+}
+.footLinks a:hover{color:#fff;opacity:1}
+.small{font-size:12px;color:rgba(255,255,255,.62);margin-top:10px}
+.brandFooter{
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:6px;
+}
+.brandFooter .brandTitle .name{
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.brandFooter .brandTitle .sub{
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  opacity:.85;
+}
+footer .small{line-height:1.6;max-width:520px}
+@media (max-width: 980px){
+  footer{padding:38px 0 44px;}
+  .footGrid{grid-template-columns:1fr 1fr;gap:18px;}
+}
+@media (max-width: 560px){
+  .footGrid{grid-template-columns:1fr;gap:16px;}
+}
+</style>
+</head>
+<body>
+
+<div style="width:100%;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.08);text-align:center;padding:8px 10px;font-size:13px;letter-spacing:.04em;">
+  Enterprise Data Platforms for AI, Analytics, and Distributed Operations
+</div>
+
+<div class="topbar">
+  <div class="container">
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <div class="logoMark" aria-hidden="true"></div>
+        <div class="brandTitle">
+          <div class="name">IES Engineering</div>
+          <div class="sub">Pvt. Ltd.</div>
+        </div>
+      </a>
+
+      <nav class="menu" aria-label="Primary Navigation">
+          <div class="menuItem">
+            <a class="menuTrigger active" href="index.html#solutions" aria-haspopup="true" aria-expanded="false">Solutions <span class="menuCaret">▾</span></a>
+            <div class="megaMenu" aria-label="Solutions">
+              <div class="megaHead">
+                <div class="megaTitle">Core Capabilities</div>
+                <div class="megaHint">Explore solutions</div>
+              </div>
+              <div class="megaGrid">
+                <a class="megaCard" href="Solutions-digital-ai-infrastructure.html">
+                  <div class="megaIcon">INFRA</div>
+                  <h4>Digital &amp; AI Infrastructure</h4>
+                  <p>Enterprise networks, data centers, and AI-ready compute foundations for regulated and high-growth environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-data-platforms-global-namespace.html" aria-current="page">
+                  <div class="megaIcon">DATA</div>
+                  <h4>Data Platforms &amp; Global Namespace Storage</h4>
+                  <p>High-performance data platforms and unified global namespace storage for AI workloads, analytics, and distributed enterprise environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-smart-buildings-critical-elv.html">
+                  <div class="megaIcon">ELV</div>
+                  <h4>Smart Buildings &amp; Critical ELV</h4>
+                  <p>Integrated ELV, surveillance, and automation infrastructure for secure, connected developments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Solutions-banking-national-infrastructure-systems.html">
+                  <div class="megaIcon">BANK</div>
+                  <h4>Banking &amp; National Infrastructure Systems</h4>
+                  <p>Security-led, high-availability systems for banks, government, and regulated sectors.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="menuItem">
+            <a class="menuTrigger" href="index.html#industries" aria-haspopup="true" aria-expanded="false">Industries <span class="menuCaret">▾</span></a>
+            <div class="megaMenu" aria-label="Industries">
+              <div class="megaHead">
+                <div class="megaTitle">Industries We Serve</div>
+                <div class="megaHint">Explore sectors</div>
+              </div>
+              <div class="megaGrid">
+                <a class="megaCard" href="Industries-banking-financial.html">
+                  <div class="megaIcon">BNK</div>
+                  <h4>Banking &amp; Financial Institutions</h4>
+                  <p>Secure, compliant, high-availability infrastructure and data platforms for HBL, UBL, Meezan and leading financial institutions.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-government-national.html">
+                  <div class="megaIcon">GOV</div>
+                  <h4>Government &amp; National Platforms</h4>
+                  <p>Scalable digital infrastructure for PSW, NADRA, and regulated public-sector environments.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-enterprise-corporate.html">
+                  <div class="megaIcon">ENT</div>
+                  <h4>Enterprise &amp; Corporate Organizations</h4>
+                  <p>AI-ready data, compute, and ICT backbone for CPG &amp; Retail, corporate groups, and multi-site operations.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+                <a class="megaCard" href="Industries-hospitality-mixed-use.html">
+                  <div class="megaIcon">HOT</div>
+                  <h4>Hospitality &amp; Mixed-Use Developments</h4>
+                  <p>Integrated ICT, ELV and smart infrastructure for Radisson Blu, Signature Rotana, PC Hotels, and premium properties.</p>
+                  <span class="miniLink">Open page →</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <a href="index.html#leadership">Leadership</a>
+          <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+          <a href="partners.html">Partners</a>
+          <a href="hoteza-iptv-ies.html">Hoteza</a>
+          <span>Case Studies</span>
+          
+        </nav>
+
+      <div class="actions">
+          <a class="btn" href="contact.html">Contact</a>
+        <a class="btn primary" href="index.html#contact">Engage With Our Engineering Team</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="heroWrap">
+  <div class="container">
+    <div class="heroCard">
+      <div class="heroInner">
+        <div class="heroText">
+          <span class="eyebrow"><i></i> Data Platforms & Global Namespace Storage</span>
+          <h1>Unify Enterprise Data for AI, Analytics, and Multi-Site Operations</h1>
+          <p>
+            IES Engineering helps organizations design and deploy high-performance data platforms and global namespace
+            environments that simplify data access, improve operational agility, and prepare infrastructure for AI,
+            analytics, and mission-critical enterprise workloads.
+          </p>
+
+          <div class="heroBtns">
+            <a class="btn primary" href="index.html#contact">Discuss Your Data Platform Strategy</a>
+            <a class="btn" href="#capabilities">Explore Capabilities</a>
+          </div>
+
+          <div class="heroHighlights">
+            <div class="highlight">
+              <strong>Unified Data Access</strong>
+              <span>Bring structured and unstructured data into a single operational framework across teams and locations.</span>
+            </div>
+            <div class="highlight">
+              <strong>AI-Ready Architecture</strong>
+              <span>Prepare enterprise storage and data flows for modern analytics, AI pipelines, and accelerated workloads.</span>
+            </div>
+            <div class="highlight">
+              <strong>High-Performance Scale</strong>
+              <span>Support performance-intensive applications with resilient, scalable data platform foundations.</span>
+            </div>
+            <div class="highlight">
+              <strong>Governance & Simplicity</strong>
+              <span>Improve visibility, control, and access management while reducing operational complexity.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="heroPanel">
+          <h3>Where This Solution Fits</h3>
+          <p>
+            This solution is ideal for banks, government entities, enterprise groups, analytics-driven environments,
+            AI initiatives, and organizations that need secure, high-performance access to distributed data at scale.
+          </p>
+          <div class="stack">
+            <span class="pill"><i></i> AI & Analytics Workloads</span>
+            <span class="pill"><i></i> Multi-Site Enterprise Operations</span>
+            <span class="pill"><i></i> Regulated Data Environments</span>
+            <span class="pill"><i></i> Long-Term Scalable Architecture</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="capabilities" class="section lightSection">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Core Capabilities</div>
+        <h2 class="h2">Built for data-intensive enterprise environments</h2>
+      </div>
+      <p class="subtext">
+        We help customers move from fragmented storage and isolated data silos toward governed, scalable, performance-led
+        platforms that support both present operational requirements and future AI ambitions.
+      </p>
+    </div>
+
+    <div class="grid-4">
+      <div class="lightCard">
+        <div class="iconBadge">GNS</div>
+        <h3>Global Namespace Design</h3>
+        <p>Create a unified data layer that presents distributed data through one consistent operational view.</p>
+      </div>
+      <div class="lightCard">
+        <div class="iconBadge">HPC</div>
+        <h3>High-Performance Data Access</h3>
+        <p>Support analytics, AI pipelines, and performance-sensitive applications with enterprise-grade throughput.</p>
+      </div>
+      <div class="lightCard">
+        <div class="iconBadge">SEC</div>
+        <h3>Governance & Security Alignment</h3>
+        <p>Structure access, protection, and policy alignment for environments where control and compliance matter.</p>
+      </div>
+      <div class="lightCard">
+        <div class="iconBadge">OPS</div>
+        <h3>Operational Simplicity</h3>
+        <p>Reduce complexity by consolidating fragmented data access models into a cleaner operating framework.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div class="panel">
+        <div class="kicker">Business Value</div>
+        <h2 class="h2">Why enterprise organizations move toward global namespace architecture</h2>
+        <p>
+          As data volumes grow across departments, sites, and workloads, traditional storage models become difficult to manage.
+          A mature data platform strategy helps organizations simplify access, improve collaboration, and prepare for AI-driven
+          initiatives without multiplying operational overhead.
+        </p>
+        <ul class="tickList">
+          <li>
+            <div class="tick">✓</div>
+            <div>
+              <strong>One operational view of enterprise data</strong>
+              <span>Help teams access and work with data across sites and workflows without constant movement or duplication.</span>
+            </div>
+          </li>
+          <li>
+            <div class="tick">✓</div>
+            <div>
+              <strong>Better readiness for AI and analytics</strong>
+              <span>Provide the data access model required for modern pipelines, model workflows, and advanced enterprise reporting.</span>
+            </div>
+          </li>
+          <li>
+            <div class="tick">✓</div>
+            <div>
+              <strong>Improved scalability with less friction</strong>
+              <span>Expand data operations without rebuilding the environment every time business requirements increase.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="kicker">IES Approach</div>
+        <h3>Architecture-led, enterprise-first</h3>
+        <p>
+          IES Engineering approaches data platform engagements through architecture, governance, performance requirements,
+          and long-term business fit — not just product selection. Our role is to align the platform with your workloads,
+          data access patterns, operational structure, and future growth direction.
+        </p>
+        <ul class="tickList">
+          <li>
+            <div class="tick">1</div>
+            <div>
+              <strong>Assess workload and access patterns</strong>
+              <span>Understand how data is created, accessed, moved, protected, and consumed across the organization.</span>
+            </div>
+          </li>
+          <li>
+            <div class="tick">2</div>
+            <div>
+              <strong>Design the target platform architecture</strong>
+              <span>Define the right structure for performance, resilience, governance, and operational simplicity.</span>
+            </div>
+          </li>
+          <li>
+            <div class="tick">3</div>
+            <div>
+              <strong>Deploy for long-term operational fit</strong>
+              <span>Ensure the platform supports present business needs while remaining ready for future AI and analytics demand.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Architecture Journey</div>
+        <h2 class="h2">How this solution supports enterprise transformation</h2>
+      </div>
+      <p class="subtext">
+        A mature data platform is not only a storage decision. It is part of the broader data operating model that influences
+        analytics performance, AI readiness, collaboration, governance, and long-term digital scalability.
+      </p>
+    </div>
+
+    <div class="architecture">
+      <div class="stage">
+        <div class="num">1</div>
+        <strong>Assess</strong>
+        <span>Map current data silos, access patterns, performance pain points, and operational constraints.</span>
+      </div>
+      <div class="stage">
+        <div class="num">2</div>
+        <strong>Consolidate</strong>
+        <span>Reduce fragmented storage experiences into a more unified and governable data framework.</span>
+      </div>
+      <div class="stage">
+        <div class="num">3</div>
+        <strong>Accelerate</strong>
+        <span>Support analytics, enterprise reporting, AI pipelines, and high-performance data access demands.</span>
+      </div>
+      <div class="stage">
+        <div class="num">4</div>
+        <strong>Govern</strong>
+        <span>Align visibility, protection, and access models with the organization’s security and compliance posture.</span>
+      </div>
+      <div class="stage">
+        <div class="num">5</div>
+        <strong>Scale</strong>
+        <span>Expand the platform for new sites, new workloads, and future digital initiatives without unnecessary redesign.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section lightSection">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Representative Use Cases</div>
+        <h2 class="h2">Where this page aligns with your business model</h2>
+      </div>
+      <p class="subtext">
+        The page is positioned for enterprise conversations, not retail IT. It aligns with the kind of customers IES engages:
+        regulated, infrastructure-led, multi-stakeholder environments where architecture, trust, and long-term support matter.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <div class="lightCard">
+        <div class="iconBadge">BNK</div>
+        <h3>Banking & Financial Services</h3>
+        <p>Modernize data access for analytics, reporting, risk functions, and performance-sensitive enterprise workloads.</p>
+      </div>
+      <div class="lightCard">
+        <div class="iconBadge">GOV</div>
+        <h3>Government & National Platforms</h3>
+        <p>Support large-scale digital environments where governance, resilience, and long-term scalability are essential.</p>
+      </div>
+      <div class="lightCard">
+        <div class="iconBadge">ENT</div>
+        <h3>Enterprise & AI Initiatives</h3>
+        <p>Enable AI-ready data foundations for large organizations moving toward analytics-driven decision environments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Why IES Engineering</div>
+        <h2 class="h2">A strategic partner for enterprise data platform initiatives</h2>
+      </div>
+      <p class="subtext">
+        Customers do not only need technology supply. They need a partner who can translate business requirements into a deployable,
+        supportable, future-ready architecture that fits governance, scale, and operational realities.
+      </p>
+    </div>
+
+    <div class="caseStrip">
+      <div class="miniCase">
+        <h4>Architecture-Led Engagement</h4>
+        <p>We lead with workload understanding, business fit, and deployment strategy — not only specification sheets.</p>
+      </div>
+      <div class="miniCase">
+        <h4>Enterprise Positioning</h4>
+        <p>This page reflects your enterprise business direction: regulated sectors, data-intensive operations, and long-term value.</p>
+      </div>
+      <div class="miniCase">
+        <h4>Future Growth Alignment</h4>
+        <p>The messaging is designed to support discussions around AI readiness, analytics, and infrastructure modernization.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="ctaBox">
+      <div>
+        <h3>Let’s design the right data platform strategy for your environment</h3>
+        <p>
+          Whether your organization is dealing with fragmented storage, growing analytics demand, or the need for an AI-ready
+          data foundation, IES Engineering can help shape the right architecture and deployment direction.
+        </p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a class="btn primary" href="index.html#contact">Engage With Our Engineering Team</a>
+        <a class="btn" href="index.html">Return to Homepage</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footGrid">
+      <div>
+        <div class="brand brandFooter">
+          <div class="logoMark" aria-hidden="true"></div>
+          <div class="brandTitle">
+            <div class="name">IES Engineering</div>
+            <div class="sub">Pvt. Ltd.</div>
+          </div>
+        </div>
+<div class="small">
+          © <span id="year"></span> IES Engineering (Private) Limited. All rights reserved.
+        </div>
+        <div class="small">
+          Enterprise ICT Infrastructure • Data Platforms • ELV & Smart Systems
+        </div>
+      </div>
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Company</div>
+        <a href="index.html#leadership">Leadership</a>
+        <a href="vast-data-ai-performance-nvidia.html">Vast Data Platform</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Solutions</div>
+        <a href="index.html#solutions">ICT Infrastructure</a>
+        <a href="index.html#solutions">Data Platforms & Analytics</a>
+        <a href="index.html#solutions">ELV & Smart Buildings</a>
+        <a href="partners.html">Partners</a>
+      </div>
+      <div class="footLinks">
+        <div style="font-weight:800; color:#fff; margin-bottom:8px;">Contact</div>
+        <a href="#">hello@iespakistan.com</a>
+        <a href="#">+92 42 3 230 1563</a>
+        <a href="#">50-N Gurumangat Road, Gulberg II - Lahore, Pakistan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
