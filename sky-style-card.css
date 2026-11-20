@@ -1,0 +1,13 @@
+#ies-director-reference{grid-column:1/-1;display:grid;grid-template-columns:29.3% minmax(0,1fr);min-height:310px;aspect-ratio:3.25 / 1;border:1px solid #35a4cf;border-radius:15px;overflow:hidden;background:linear-gradient(105deg,#d9f8e8 28%,#c5e3eb 100%);color:#263f50;font-family:Arial,Helvetica,sans-serif;box-sizing:border-box;text-align:left;container-type:inline-size}
+#ies-director-reference *{box-sizing:border-box}
+#ies-director-reference .idr-photo{min-height:100%;position:relative;border-right:3px solid #e2eee8}
+#ies-director-reference .idr-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 32%;display:block}
+#ies-director-reference .idr-content{align-self:center;padding:34px 3.3cqw;min-width:0}
+#ies-director-reference .idr-heading{display:flex;align-items:center;justify-content:space-between;gap:18px}
+#ies-director-reference h2{font:700 clamp(25px,2.4cqw,49px)/1.12 Arial,Helvetica,sans-serif;color:#263f50;letter-spacing:-.5px;margin:0 0 7px}
+#ies-director-reference h3{font:700 clamp(18px,1.7cqw,35px)/1.2 Arial,Helvetica,sans-serif;color:#263f50;margin:0}
+#ies-director-reference p{font:400 clamp(14px,1.1cqw,23px)/1.4 Arial,Helvetica,sans-serif;color:#304959;margin:12px 0 0}
+#ies-director-reference p+p{margin-top:24px}
+#ies-director-reference .idr-linkedin{flex-shrink:0;background:#0084b5;color:#fff;border-radius:3px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:bold 30px/1 Arial,sans-serif;letter-spacing:-2px;padding-right:3px}
+@media(min-width:1300px){#ies-director-reference .idr-linkedin{width:54px;height:54px;font-size:47px}}
+@media(max-width:600px){#ies-director-reference{grid-template-columns:1fr;aspect-ratio:auto;border-radius:15px}#ies-director-reference .idr-photo{height:330px;border-right:0;border-bottom:3px solid #e2eee8}#ies-director-reference .idr-photo img{object-position:50% 24%}#ies-director-reference .idr-content{padding:26px 22px}#ies-director-reference h2{font-size:28px}#ies-director-reference h3{font-size:19px}#ies-director-reference p{font-size:15px}}
