@@ -462,6 +462,8 @@
     .partnerRole{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;color:var(--orange-500)}
     .partnerDesc{font-size:13px;color:rgba(255,255,255,.72);line-height:1.65;margin-bottom:16px}
     .partnerTags{display:flex;flex-wrap:wrap;gap:6px}
+    .hospitalityPartners .partnerCard{display:flex;flex-direction:column}
+    .hospitalityPartners .partnerTags{margin-top:auto}
     .partnerTag{
       padding:5px 10px;border-radius:999px;
       background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
@@ -1003,6 +1005,56 @@ footer .small{line-height:1.6;max-width:520px}
   </div>
 </section>
 
+<!-- ===== HOSPITALITY STACK ===== -->
+<section id="hospitality-stack" style="padding:0 0 68px" aria-labelledby="hospitality-stack-title">
+  <div class="container">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Hospitality Technology</div>
+        <h2 class="h2" id="hospitality-stack-title">Hospitality Stack</h2>
+      </div>
+      <p class="subtext">Interactive guest services, centralized TV distribution, and hospitality displays — selected to support a connected in-room experience from the headend to the guest screen.</p>
+    </div>
+    <div class="corePartnersGrid hospitalityPartners">
+      <div class="partnerCard">
+        <div class="partnerLogoBox vast">HTZ</div>
+        <div class="partnerName">Hoteza</div>
+        <div class="partnerRole">Interactive IPTV &amp; Digital Guest Experience</div>
+        <div class="partnerDesc">Hoteza brings hotel entertainment, information, and guest services together through interactive TV and digital guest platforms. Personalized welcome screens, hotel information, and service requests help properties create a connected guest experience while promoting in-house services.</div>
+        <div class="partnerTags">
+          <span class="partnerTag">Interactive IPTV</span>
+          <span class="partnerTag">Guest Services</span>
+          <span class="partnerTag">Hotel Branding</span>
+        </div>
+      </div>
+
+      <div class="partnerCard">
+        <div class="partnerLogoBox vast">TRX</div>
+        <div class="partnerName">TRIAX Headend</div>
+        <div class="partnerRole">Centralized TV Headend &amp; Channel Distribution</div>
+        <div class="partnerDesc">TRIAX headend solutions support centralized TV channel delivery across hospitality properties, with IP and RF distribution options. Flexible channel management and hotel information channels help operators deliver consistent in-room entertainment and property-wide guest communications.</div>
+        <div class="partnerTags">
+          <span class="partnerTag">TV Headend</span>
+          <span class="partnerTag">IP &amp; RF Distribution</span>
+          <span class="partnerTag">Information Channels</span>
+        </div>
+      </div>
+
+      <div class="partnerCard">
+        <div class="partnerLogoBox vast">LG</div>
+        <div class="partnerName">LG Hospitality TV</div>
+        <div class="partnerRole">Hotel Televisions &amp; In-Room Entertainment</div>
+        <div class="partnerDesc">LG hospitality televisions combine in-room entertainment with hotel-focused content management and branded guest interfaces. Pro:Centric solutions support customized hotel information and centralized content delivery, helping properties create a consistent guest experience across rooms.</div>
+        <div class="partnerTags">
+          <span class="partnerTag">Hospitality Displays</span>
+          <span class="partnerTag">Pro:Centric</span>
+          <span class="partnerTag">Content Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== TECHNOLOGY STACK STRIP ===== -->
 <section style="padding:0 0 68px">
   <div class="container">
@@ -1022,6 +1074,10 @@ footer .small{line-height:1.6;max-width:520px}
         <div class="stackChip"><div class="dot" style="background:#e97450"></div>Apache Spark</div>
         <div class="stackChip"><div class="dot" style="background:#64b5f6"></div>Trino</div>
         <div class="stackChip"><div class="dot" style="background:#64c8ff"></div>Dremio</div>
+        <div class="stackDivider"></div>
+        <div class="stackChip"><div class="dot" style="background:var(--orange-500)"></div>Hoteza</div>
+        <div class="stackChip"><div class="dot" style="background:var(--orange-500)"></div>TRIAX Headend</div>
+        <div class="stackChip"><div class="dot" style="background:var(--orange-500)"></div>LG Hospitality TV</div>
       </div>
     </div>
   </div>
